@@ -1,6 +1,7 @@
 package com.epf.rentmanager.service;
 
 import com.epf.rentmanager.dao.VehicleDao;
+import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Vehicle;
 
@@ -35,8 +36,12 @@ public class VehicleService {
 	}
 
 	public List<Vehicle> findAll() throws ServiceException {
-		// TODO: récupérer tous les clients
-		return null;
+		try {
+			return VehicleDao.getInstance().findAll();
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException();
+		}
 	}
 
 }

@@ -18,9 +18,16 @@ public class Vehicle {
 		this.seatCount = seatCount;
 	}
 
+	public Vehicle(long identifier, String constructor, short seatCount) {
+		this.identifier = identifier;
+		this.constructor = constructor;
+		this.seatCount = seatCount;
+	}
+
 	@Override
 	public String toString() {
-		return "Vehicle{" + "identifier=" + identifier + ", constructor='" + constructor + '\'' + ", model='" + model + '\'' + ", seatCount=" + seatCount + '}';
+		return "Vehicle{" + "identifier=" + identifier + ", constructor='" + constructor + '\'' +
+		       ", model='" + model + '\'' + ", seatCount=" + seatCount + '}';
 	}
 
 	@Override
