@@ -1,9 +1,9 @@
 package com.epf.rentmanager.persistence;
 
+import org.h2.jdbcx.JdbcDataSource;
+
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import org.h2.jdbcx.JdbcDataSource;
 
 public class ConnectionManager {
 	private static final String DB_CONNECTION = "jdbc:h2:~/RentManagerDatabase";
