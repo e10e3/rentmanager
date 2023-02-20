@@ -24,10 +24,19 @@ public class ClientService {
 		return instance;
 	}
 
-
 	public long create(Client client) throws ServiceException {
-		// TODO: créer un client
-		return 0;
+		try {
+			if (client.getFirstName().isBlank()) {
+				throw new ServiceException("First name cannot be empty.");
+			}
+			if (client.getLastName().isBlank()) {
+				throw new ServiceException("Last name cannot be empty.");
+			}
+			return ClientDao.getInstance().create(client);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException(e);
+		}
 	}
 
 	public Client findById(long id) throws ServiceException {

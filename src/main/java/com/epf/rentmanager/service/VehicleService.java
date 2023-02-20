@@ -24,10 +24,16 @@ public class VehicleService {
 		return instance;
 	}
 
-
 	public long create(Vehicle vehicle) throws ServiceException {
-		// TODO: créer un véhicule
-		return 0;
+		try {
+			if (vehicle.getConstructor().isBlank()) {
+				throw new ServiceException("Constructor cannot be empty.");
+			}
+			return VehicleDao.getInstance().create(vehicle);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException(e);
+		}
 	}
 
 	public Vehicle findById(long id) throws ServiceException {

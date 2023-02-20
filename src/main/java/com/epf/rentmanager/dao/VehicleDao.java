@@ -27,7 +27,30 @@ public class VehicleDao {
 	}
 
 	public long create(Vehicle vehicle) throws DaoException {
-		return 0;
+		long vehicle_id = 0;
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(CREATE_VEHICLE_QUERY,
+			                                                                  Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setString(1, vehicle.getConstructor());
+			preparedStatement.setShort(2, vehicle.getSeatCount());
+			preparedStatement.executeUpdate();
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+
+			while (rs.next()) {
+				vehicle_id = rs.getLong("id");
+				assert rs.getString("constructeur").equals(vehicle.getConstructor());
+				assert rs.getShort("nb_places") == vehicle.getSeatCount();
+			}
+
+			preparedStatement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException(e);
+		}
+
+		return vehicle_id;
 	}
 
 	public long delete(Vehicle vehicle) throws DaoException {
