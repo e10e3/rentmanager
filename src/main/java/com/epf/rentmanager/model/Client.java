@@ -23,7 +23,9 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return "Client{" + "identifier=" + identifier + ", lastName='" + lastName + '\'' + ", firstName='" + firstName + '\'' + ", emailAddress='" + emailAddress + '\'' + ", birthDate=" + birthDate + '}';
+		return "Client{" + "identifier=" + identifier + ", lastName='" + lastName + '\'' +
+		       ", firstName='" + firstName + '\'' + ", emailAddress='" + emailAddress + '\'' +
+		       ", birthDate=" + birthDate + '}';
 	}
 
 	@Override

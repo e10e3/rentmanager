@@ -50,7 +50,7 @@ public class VehicleDao {
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return vehicle;
 	}
@@ -63,18 +63,18 @@ public class VehicleDao {
 			ResultSet rs = statement.executeQuery(FIND_VEHICLES_QUERY);
 
 			while (rs.next()) {
-				vehicles.add(new Vehicle(rs.getInt("id"), rs.getString("constructeur"), rs.getShort("nb_places")));
+				vehicles.add(new Vehicle(rs.getInt("id"), rs.getString("constructeur"),
+				                         rs.getShort("nb_places")));
 			}
 
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return vehicles;
 
 	}
-
 
 }

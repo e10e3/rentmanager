@@ -35,7 +35,7 @@ public class ClientService {
 			return ClientDao.getInstance().findById(id);
 		} catch (DaoException e) {
 			e.printStackTrace();
-			throw new ServiceException();
+			throw new ServiceException(e);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class ClientService {
 			return ClientDao.getInstance().findAll();
 		} catch (DaoException e) {
 			e.printStackTrace();
-			throw new ServiceException();
+			throw new ServiceException(e);
 		}
 	}
 

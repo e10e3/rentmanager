@@ -51,7 +51,7 @@ public class ClientDao {
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return client;
 	}
@@ -62,14 +62,18 @@ public class ClientDao {
 			Connection connection = ConnectionManager.getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(FIND_CLIENTS_QUERY);
+
 			while (rs.next()) {
-				clients.add(new Client(rs.getInt("id"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), rs.getDate("naissance").toLocalDate()));
+				clients.add(
+						new Client(rs.getLong("id"), rs.getString("nom"), rs.getString("prenom"),
+						           rs.getString("email"), rs.getDate("naissance").toLocalDate()));
 			}
+
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DaoException();
+			throw new DaoException(e);
 		}
 		return clients;
 	}
