@@ -31,8 +31,12 @@ public class VehicleService {
 	}
 
 	public Vehicle findById(long id) throws ServiceException {
-		// TODO: récupérer un véhicule par son id
-		return null;
+		try {
+			return VehicleDao.getInstance().findById(id);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException();
+		}
 	}
 
 	public List<Vehicle> findAll() throws ServiceException {

@@ -4,10 +4,7 @@ import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.persistence.ConnectionManager;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +35,25 @@ public class ClientDao {
 	}
 
 	public Client findById(long id) throws DaoException {
-		return new Client();
+		Client client = null;
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(FIND_CLIENT_QUERY);
+			preparedStatement.setLong(1, id);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				client = new Client(id, rs.getString("nom"), rs.getString("prenom"),
+				                    rs.getString("email"), rs.getDate("naissance").toLocalDate());
+			}
+
+			preparedStatement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException();
+		}
+		return client;
 	}
 
 	public List<Client> findAll() throws DaoException {

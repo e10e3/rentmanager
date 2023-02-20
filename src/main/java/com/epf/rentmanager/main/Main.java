@@ -9,6 +9,8 @@ public class Main {
 		try {
 			System.out.println(ClientService.getInstance().findAll());
 			System.out.println(VehicleService.getInstance().findAll());
+			System.out.println(ClientService.getInstance().findById(1L));
+			System.out.println(VehicleService.getInstance().findById(2L));
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
