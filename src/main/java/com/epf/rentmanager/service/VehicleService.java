@@ -29,6 +29,9 @@ public class VehicleService {
 			if (vehicle.getConstructor().isBlank()) {
 				throw new ServiceException("Constructor cannot be empty.");
 			}
+			if (vehicle.getSeatCount() <= 0) {
+				throw new ServiceException("Number of seats must be at least one");
+			}
 			return VehicleDao.getInstance().create(vehicle);
 		} catch (DaoException e) {
 			e.printStackTrace();

@@ -27,6 +27,7 @@ Exercise 4
 - [X] Implement the `ClientService` and `VehicleService` classes.
     - [X] A client cannot be added with an empty first name or last name.
     - [X] A vehicle cannot be added with an empty constructor.
+    - [X] A vehicle must have a least one seat.
     - [ ] A client’s last name should be set in UPPERCASE.
 
 Exercise 5
@@ -41,9 +42,9 @@ Exercise 5
     - [ ] delete a client,
     - [ ] delete a vehicle.
 - Tips:
-  - [ ] a client should have a last name, a first name, an email address, and a brith date,
-  - [ ] date and email address formats should be checked,
-  - [ ] the `IOUtils` class in the *utils* package contains some tools.
+    - [ ] a client should have a last name, a first name, an email address, and a brith date,
+    - [ ] date and email address formats should be checked,
+    - [ ] the `IOUtils` class in the *utils* package contains some tools.
 
 Exercise 6
 -----------
@@ -52,5 +53,5 @@ Exercise 6
 - [ ] Implement the `ReservationDao` class.
 - [ ] Create the `ReservationService` class.
 - [ ] Complete the interface with:
-  - [ ] creating a reservation,
-  - [ ] list all reservations.
+    - [ ] creating a reservation,
+    - [ ] list all reservations.
