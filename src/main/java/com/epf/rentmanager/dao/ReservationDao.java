@@ -32,13 +32,15 @@ public class ReservationDao {
 		return 0;
 	}
 
+	public void update(long id, Reservation newData) throws DaoException {
+	}
 
 	public List<Reservation> findResaByClientId(long clientId) throws DaoException {
-		return new ArrayList<Reservation>();
+		return new ArrayList<>();
 	}
 
 	public List<Reservation> findResaByVehicleId(long vehicleId) throws DaoException {
-		return new ArrayList<Reservation>();
+		return new ArrayList<>();
 	}
 
 	public List<Reservation> findAll() throws DaoException {

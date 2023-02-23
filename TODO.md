@@ -51,7 +51,7 @@ Exercise 6
 
 - [X] Implement the `Reservation` model class.
 - [ ] Implement the `ReservationDao` class.
-- [ ] Create the `ReservationService` class.
+- [X] Create the `ReservationService` class.
 - [ ] Complete the interface with:
     - [ ] creating a reservation,
     - [ ] list all reservations.
