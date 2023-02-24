@@ -28,7 +28,7 @@ Exercise 4
     - [X] A client cannot be added with an empty first name or last name.
     - [X] A vehicle cannot be added with an empty constructor.
     - [X] A vehicle must have a least one seat.
-    - [ ] A client’s last name should be set in UPPERCASE.
+    - [X] A client’s last name should be set in UPPERCASE.
 
 Exercise 5
 -----------

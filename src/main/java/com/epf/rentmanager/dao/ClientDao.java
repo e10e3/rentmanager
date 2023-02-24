@@ -44,6 +44,7 @@ public class ClientDao {
 				assert rs.getString("nom").equals(client.getLastName());
 				assert rs.getString("prenom").equals(client.getFirstName());
 				assert rs.getString("email").equals(client.getEmailAddress());
+				assert rs.getDate("naissance").toLocalDate().equals(client.getBirthDate());
 			}
 
 			preparedStatement.close();

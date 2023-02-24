@@ -32,6 +32,7 @@ public class ClientService {
 			if (client.getLastName().isBlank()) {
 				throw new ServiceException("Last name cannot be empty.");
 			}
+			client.setLastName(client.getLastName().toUpperCase());
 			return ClientDao.getInstance().create(client);
 		} catch (DaoException e) {
 			e.printStackTrace();
