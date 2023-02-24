@@ -25,7 +25,7 @@ public class ReservationService {
 
 	public long create(Reservation reservation) throws ServiceException {
 		try {
-			return ReservationDao.getInstance().create(reservation);
+			return reservationDao.create(reservation);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -34,7 +34,7 @@ public class ReservationService {
 
 	public long delete(Reservation reservation) throws ServiceException {
 		try {
-			return ReservationDao.getInstance().delete(reservation);
+			return reservationDao.delete(reservation);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -43,7 +43,7 @@ public class ReservationService {
 
 	public void modify(long id, Reservation newData) throws ServiceException {
 		try {
-			ReservationDao.getInstance().update(id, newData);
+			reservationDao.update(id, newData);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -52,7 +52,7 @@ public class ReservationService {
 
 	public List<Reservation> findResaByClientId(long clientId) throws ServiceException {
 		try {
-			return ReservationDao.getInstance().findResaByClientId(clientId);
+			return reservationDao.findResaByClientId(clientId);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -61,7 +61,7 @@ public class ReservationService {
 
 	public List<Reservation> findResaByVehicleId(long vehicleId) throws ServiceException {
 		try {
-			return ReservationDao.getInstance().findResaByVehicleId(vehicleId);
+			return reservationDao.findResaByVehicleId(vehicleId);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -70,7 +70,7 @@ public class ReservationService {
 
 	public List<Reservation> findAll() throws ServiceException {
 		try {
-			return ReservationDao.getInstance().findAll();
+			return reservationDao.findAll();
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
