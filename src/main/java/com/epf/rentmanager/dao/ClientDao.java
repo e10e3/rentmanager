@@ -12,6 +12,7 @@ public class ClientDao {
 
 	private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(nom, prenom, email, naissance) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
+	private static final String UPDATE_CLIENT_QUERY = "UPDATE Client SET nom=?, prenom=?, email=?, naissance=? WHERE id=?;";
 	private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
 	private static ClientDao instance = null;
@@ -80,6 +81,22 @@ public class ClientDao {
 	}
 
 	public void update(long id, Client newData) throws DaoException {
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_QUERY);
+			preparedStatement.setString(1, newData.getLastName());
+			preparedStatement.setString(2, newData.getFirstName());
+			preparedStatement.setString(3, newData.getEmailAddress());
+			preparedStatement.setDate(4, Date.valueOf(newData.getBirthDate()));
+			preparedStatement.setLong(5, id);
+			preparedStatement.executeUpdate();
+
+			preparedStatement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException(e);
+		}
 	}
 
 	public Client findById(long id) throws DaoException {
@@ -91,8 +108,8 @@ public class ClientDao {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				client = new Client(id, rs.getString("nom"), rs.getString("prenom"),
-				                    rs.getString("email"), rs.getDate("naissance").toLocalDate());
+				client = new Client(id, rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
+				                    rs.getDate("naissance").toLocalDate());
 			}
 
 			preparedStatement.close();
@@ -113,8 +130,8 @@ public class ClientDao {
 
 			while (rs.next()) {
 				clients.add(
-						new Client(rs.getLong("id"), rs.getString("nom"), rs.getString("prenom"),
-						           rs.getString("email"), rs.getDate("naissance").toLocalDate()));
+						new Client(rs.getLong("id"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
+						           rs.getDate("naissance").toLocalDate()));
 			}
 
 			statement.close();

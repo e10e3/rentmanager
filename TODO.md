@@ -18,7 +18,7 @@ Exercise 3
 -----------
 
 - [X] Create the `DaoException` exception class.
-- [ ] Implement the `ClientDao` and `VehicleDao` classes.
+- [X] Implement the `ClientDao` and `VehicleDao` classes.
 
 Exercise 4
 -----------
@@ -50,7 +50,7 @@ Exercise 6
 -----------
 
 - [X] Implement the `Reservation` model class.
-- [ ] Implement the `ReservationDao` class.
+- [X] Implement the `ReservationDao` class.
 - [X] Create the `ReservationService` class.
 - [ ] Complete the interface with:
     - [ ] creating a reservation,
