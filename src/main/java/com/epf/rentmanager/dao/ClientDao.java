@@ -57,7 +57,29 @@ public class ClientDao {
 	}
 
 	public long delete(Client client) throws DaoException {
-		return 0;
+		long client_id = client.getIdentifier();
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLIENT_QUERY,
+			                                                                  Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setLong(1, client_id);
+			preparedStatement.executeUpdate();
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+
+			while (rs.next()) {
+				assert rs.getLong("id") == client_id;
+			}
+
+			preparedStatement.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException(e);
+		}
+		return client_id;
+	}
+
+	public void update(long id, Client newData) throws DaoException {
 	}
 
 	public Client findById(long id) throws DaoException {
