@@ -4,6 +4,7 @@ import com.epf.rentmanager.dao.ClientDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
+import com.epf.rentmanager.model.Reservation;
 
 import java.util.List;
 
@@ -34,6 +35,29 @@ public class ClientService {
 			}
 			client.setLastName(client.getLastName().toUpperCase());
 			return ClientDao.getInstance().create(client);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException(e);
+		}
+	}
+
+	public long delete(Client client) throws ServiceException {
+		try {
+			for (Reservation res : ReservationService.getInstance()
+					.findResaByClientId(client.getIdentifier())) {
+				/* Reservations from a client can be deleted if the client is removed. */
+				ReservationService.getInstance().delete(res);
+			}
+			return ClientDao.getInstance().delete(client);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException(e);
+		}
+	}
+
+	public void modify(long id, Client newData) throws ServiceException {
+		try {
+			ClientDao.getInstance().update(id, newData);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);

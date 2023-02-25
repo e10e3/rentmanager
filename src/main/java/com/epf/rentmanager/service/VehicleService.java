@@ -3,6 +3,7 @@ package com.epf.rentmanager.service;
 import com.epf.rentmanager.dao.VehicleDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.model.Vehicle;
 
 import java.util.List;
@@ -33,6 +34,29 @@ public class VehicleService {
 				throw new ServiceException("Number of seats must be at least one");
 			}
 			return VehicleDao.getInstance().create(vehicle);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException(e);
+		}
+	}
+
+	public long delete(Vehicle vehicle) throws ServiceException {
+		try {
+			for (Reservation res : ReservationService.getInstance()
+					.findResaByVehicleId(vehicle.getIdentifier())) {
+				/* Remove vehicle from reservations */
+				res.setRentedVehicle(null);
+				ReservationService.getInstance().modify(res.getIdentifier(), res);
+			} return VehicleDao.getInstance().delete(vehicle);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException(e);
+		}
+	}
+
+	public void modify(long id, Vehicle newData) throws ServiceException {
+		try {
+			VehicleDao.getInstance().update(id, newData);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
