@@ -2,7 +2,7 @@
 Rent Manager
 #############
 
-A study program to explore making web applications using Java by creating a rent-tracking
+A study program to explore making web applications using Java by creating a rental-tracking
 software for a mock rental agency.
 
 Use
@@ -17,6 +17,8 @@ Dependencies
 =============
 
 This project was build using Java 17.
+
+- `H2 database <https://h2database.com>`_
 
 License
 ========
