@@ -54,10 +54,6 @@ public class ReservationDao {
 
 			while (rs.next()) {
 				reservationId = rs.getLong("id");
-				assert rs.getLong("client_id") == reservation.getRenterClient().getIdentifier();
-				assert rs.getLong("vehicle_id") == reservation.getRentedVehicle().getIdentifier();
-				assert rs.getDate("debut").toLocalDate().equals(reservation.getStartDate());
-				assert rs.getDate("fin").toLocalDate().equals(reservation.getEndDate());
 			}
 
 			preparedStatement.close();

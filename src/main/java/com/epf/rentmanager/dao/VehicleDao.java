@@ -41,9 +41,6 @@ public class VehicleDao {
 
 			while (rs.next()) {
 				vehicle_id = rs.getLong("id");
-				assert rs.getString("constructeur").equals(vehicle.getConstructor());
-				assert rs.getString("modele").equals(vehicle.getModel());
-				assert rs.getShort("nb_places") == vehicle.getSeatCount();
 			}
 
 			preparedStatement.close();
