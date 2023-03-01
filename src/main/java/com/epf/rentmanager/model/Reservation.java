@@ -23,9 +23,7 @@ public class Reservation {
 
 	@Override
 	public String toString() {
-		return "Reservation{" + "identifier=" + identifier + ", renterClient=" + renterClient +
-		       ", rentedVehicle=" + rentedVehicle + ", startDate=" + startDate + ", endDate=" +
-		       endDate + '}';
+		return renterClient + " loue " + rentedVehicle + " du " + startDate + " au " + endDate;
 	}
 
 	@Override

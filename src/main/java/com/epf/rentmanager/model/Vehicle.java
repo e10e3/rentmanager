@@ -26,8 +26,8 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return "Vehicle{" + "identifier=" + identifier + ", constructor='" + constructor + '\'' +
-		       ", model='" + model + '\'' + ", seatCount=" + seatCount + '}';
+		return constructor + " " + (model==null ? "":model) + " (" + seatCount + " places)";
+
 	}
 
 	@Override
