@@ -13,14 +13,20 @@ import java.util.List;
 
 public class ReservationDao {
 
-	private static final String CREATE_RESERVATION_QUERY = "INSERT INTO Reservation(client_id, vehicle_id, debut, fin) VALUES(?, ?, ?, ?);";
+	private static final String CREATE_RESERVATION_QUERY =
+			"INSERT INTO Reservation(client_id, vehicle_id, debut, " + "fin) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_RESERVATION_QUERY = "DELETE FROM Reservation WHERE id=?;";
 	private static final String UPDATE_RESERVATION_QUERY =
 			"UPDATE Reservation SET client_id=?, vehicle_id=?, " + "debut=?, fin=? " + "WHERE id=?;";
 
-	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY = "SELECT id, vehicle_id, debut, fin FROM Reservation WHERE client_id=?;";
-	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
-	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
+	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY =
+			"SELECT id, vehicle_id, debut, fin FROM " + "Reservation WHERE client_id=?;";
+	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY =
+			"SELECT id, client_id, debut, fin FROM " + "Reservation WHERE vehicle_id=?;";
+	private static final String FIND_RESERVATION_QUERY =
+			"SELECT id, client_id, debut, fin FROM Reservation WHERE " + "id=?;";
+	private static final String FIND_RESERVATIONS_QUERY =
+			"SELECT id, client_id, vehicle_id, debut, fin FROM " + "Reservation;";
 	private static ReservationDao instance = null;
 
 	private ReservationDao() {
@@ -151,6 +157,29 @@ public class ReservationDao {
 			throw new DaoException(e);
 		}
 		return vehicleReservations;
+	}
+
+	public Reservation findById(long id) throws DaoException {
+		Reservation reservation = null;
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(FIND_RESERVATION_QUERY);
+			preparedStatement.setLong(1, id);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				reservation = new Reservation(id, ClientService.getInstance().findById(rs.getLong("client_id")),
+				                              VehicleService.getInstance().findById(rs.getLong("vehicle_id")),
+				                              rs.getDate("debut").toLocalDate(), rs.getDate("fin").toLocalDate());
+			}
+
+			preparedStatement.close();
+			connection.close();
+		} catch (SQLException | ServiceException e) {
+			e.printStackTrace();
+			throw new DaoException(e);
+		}
+		return reservation;
 	}
 
 	public List<Reservation> findAll() throws DaoException {

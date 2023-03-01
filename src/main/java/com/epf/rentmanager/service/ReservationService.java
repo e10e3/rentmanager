@@ -68,6 +68,15 @@ public class ReservationService {
 		}
 	}
 
+	public Reservation findById(long id) throws ServiceException {
+		try {
+			return reservationDao.findById(id);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException(e);
+		}
+	}
+
 	public List<Reservation> findAll() throws ServiceException {
 		try {
 			return reservationDao.findAll();
