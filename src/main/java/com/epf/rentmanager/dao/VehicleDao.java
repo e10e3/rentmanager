@@ -10,11 +10,11 @@ import java.util.List;
 
 public class VehicleDao {
 
-	private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur, nb_places) VALUES(?, ?);";
+	private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES(?, ?, ?);";
 	private static final String DELETE_VEHICLE_QUERY = "DELETE FROM Vehicle WHERE id=?;";
 	private static final String UPDATE_VEHICLE_QUERY = "UPDATE Vehicule SET constructeur=?, modele=?, nb_places=? WHERE id=?;";
-	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, nb_places FROM Vehicle WHERE id=?;";
-	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, nb_places FROM Vehicle;";
+	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE " + "id=?;";
+	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle;";
 	private static VehicleDao instance = null;
 
 	private VehicleDao() {
@@ -34,13 +34,15 @@ public class VehicleDao {
 			PreparedStatement preparedStatement = connection.prepareStatement(CREATE_VEHICLE_QUERY,
 			                                                                  Statement.RETURN_GENERATED_KEYS);
 			preparedStatement.setString(1, vehicle.getConstructor());
-			preparedStatement.setShort(2, vehicle.getSeatCount());
+			preparedStatement.setString(2, vehicle.getModel());
+			preparedStatement.setShort(3, vehicle.getSeatCount());
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 
 			while (rs.next()) {
 				vehicle_id = rs.getLong("id");
 				assert rs.getString("constructeur").equals(vehicle.getConstructor());
+				assert rs.getString("modele").equals(vehicle.getModel());
 				assert rs.getShort("nb_places") == vehicle.getSeatCount();
 			}
 
@@ -105,7 +107,8 @@ public class VehicleDao {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				vehicle = new Vehicle(id, rs.getString("constructeur"), rs.getShort("nb_places"));
+				vehicle = new Vehicle(id, rs.getString("constructeur"), rs.getString("modele"),
+				                      rs.getShort("nb_places"));
 			}
 
 			preparedStatement.close();
@@ -125,7 +128,8 @@ public class VehicleDao {
 			ResultSet rs = statement.executeQuery(FIND_VEHICLES_QUERY);
 
 			while (rs.next()) {
-				vehicles.add(new Vehicle(rs.getInt("id"), rs.getString("constructeur"), rs.getShort("nb_places")));
+				vehicles.add(new Vehicle(rs.getInt("id"), rs.getString("constructeur"), rs.getString("modele"),
+				                         rs.getShort("nb_places")));
 			}
 
 			statement.close();

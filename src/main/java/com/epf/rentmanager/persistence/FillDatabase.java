@@ -28,7 +28,7 @@ public class FillDatabase {
 		createTablesQueries.add(
 				"CREATE TABLE IF NOT EXISTS Client(id INT primary key auto_increment, client_id INT, nom VARCHAR(100), prenom VARCHAR(100), email VARCHAR(100), naissance DATETIME)");
 		createTablesQueries.add(
-				"CREATE TABLE IF NOT EXISTS Vehicle(id INT primary key auto_increment, constructeur VARCHAR(100), nb_places TINYINT(255))");
+				"CREATE TABLE IF NOT EXISTS Vehicle(id INT primary key auto_increment, constructeur VARCHAR(100), modele VARCHAR(100), nb_places TINYINT(255))");
 		createTablesQueries.add(
 				"CREATE TABLE IF NOT EXISTS Reservation(id INT primary key auto_increment, client_id INT, foreign key(client_id) REFERENCES Client(id), vehicle_id INT, foreign key(vehicle_id) REFERENCES Vehicle(id), debut DATETIME, fin DATETIME)");
 
@@ -44,10 +44,10 @@ public class FillDatabase {
 			// Remplissage de la base avec des Véhicules et des Clients
 			/* Create vehicles */
 			Statement stmt = connection.createStatement();
-			stmt.execute("INSERT INTO Vehicle(constructeur, nb_places) VALUES('Renault', 4)");
-			stmt.execute("INSERT INTO Vehicle(constructeur, nb_places) VALUES('Peugeot', 4)");
-			stmt.execute("INSERT INTO Vehicle(constructeur, nb_places) VALUES('Seat', 4)");
-			stmt.execute("INSERT INTO Vehicle(constructeur, nb_places) VALUES('Nissan', 4)");
+			stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Renault', 'Twingo', 4)");
+			stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Peugeot', '207', 5)");
+			stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Seat', 'Ibiza', 4)");
+			stmt.execute("INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES('Nissan', 'Micra', 4)");
 
 			/* Create clients */
 			stmt.execute(
