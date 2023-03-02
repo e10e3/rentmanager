@@ -14,6 +14,8 @@ To start the web app::
 
     mvn tomcat7:run
 
+The site is available on http://localhost:8080/rentmanager.
+
 Architecture
 =============
 
