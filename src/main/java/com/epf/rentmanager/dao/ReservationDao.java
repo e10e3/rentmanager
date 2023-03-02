@@ -13,20 +13,13 @@ import java.util.List;
 
 public class ReservationDao {
 
-	private static final String CREATE_RESERVATION_QUERY =
-			"INSERT INTO Reservation(client_id, vehicle_id, debut, " + "fin) VALUES(?, ?, ?, ?);";
+	private static final String CREATE_RESERVATION_QUERY = "INSERT INTO Reservation(client_id, vehicle_id, debut, fin) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_RESERVATION_QUERY = "DELETE FROM Reservation WHERE id=?;";
-	private static final String UPDATE_RESERVATION_QUERY =
-			"UPDATE Reservation SET client_id=?, vehicle_id=?, " + "debut=?, fin=? " + "WHERE id=?;";
-
-	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY =
-			"SELECT id, vehicle_id, debut, fin FROM " + "Reservation WHERE client_id=?;";
-	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY =
-			"SELECT id, client_id, debut, fin FROM " + "Reservation WHERE vehicle_id=?;";
-	private static final String FIND_RESERVATION_QUERY =
-			"SELECT id, client_id, debut, fin FROM Reservation WHERE " + "id=?;";
-	private static final String FIND_RESERVATIONS_QUERY =
-			"SELECT id, client_id, vehicle_id, debut, fin FROM " + "Reservation;";
+	private static final String UPDATE_RESERVATION_QUERY = "UPDATE Reservation SET client_id=?, vehicle_id=?, debut=?, fin=? WHERE id=?;";
+	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY = "SELECT id, vehicle_id, debut, fin FROM Reservation WHERE client_id=?;";
+	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
+	private static final String FIND_RESERVATION_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation WHERE id=?;";
+	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
 	private static ReservationDao instance = null;
 
 	private ReservationDao() {
@@ -85,7 +78,7 @@ public class ReservationDao {
 			e.printStackTrace();
 			throw new DaoException(e);
 		}
-		return 0;
+		return reservationId;
 	}
 
 	public void update(long id, Reservation newData) throws DaoException {

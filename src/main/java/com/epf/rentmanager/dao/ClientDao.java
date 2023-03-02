@@ -13,7 +13,7 @@ public class ClientDao {
 	private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(nom, prenom, email, naissance) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?;";
 	private static final String UPDATE_CLIENT_QUERY = "UPDATE Client SET nom=?, prenom=?, email=?, naissance=? WHERE id=?;";
-	private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?;";
+	private static final String FIND_CLIENT_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
 	private static ClientDao instance = null;
 
@@ -28,7 +28,7 @@ public class ClientDao {
 	}
 
 	public long create(Client client) throws DaoException {
-		long client_id = 0;
+		long clientId = 0;
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(CREATE_CLIENT_QUERY,
@@ -41,7 +41,7 @@ public class ClientDao {
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 
 			while (rs.next()) {
-				client_id = rs.getLong("id");
+				clientId = rs.getLong("id");
 			}
 
 			preparedStatement.close();
@@ -50,21 +50,21 @@ public class ClientDao {
 			e.printStackTrace();
 			throw new DaoException(e);
 		}
-		return client_id;
+		return clientId;
 	}
 
 	public long delete(Client client) throws DaoException {
-		long client_id = client.getIdentifier();
+		long clientId = client.getIdentifier();
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLIENT_QUERY,
 			                                                                  Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setLong(1, client_id);
+			preparedStatement.setLong(1, clientId);
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 
 			while (rs.next()) {
-				assert rs.getLong("id") == client_id;
+				assert rs.getLong("id") == clientId;
 			}
 
 			preparedStatement.close();
@@ -73,7 +73,7 @@ public class ClientDao {
 			e.printStackTrace();
 			throw new DaoException(e);
 		}
-		return client_id;
+		return clientId;
 	}
 
 	public void update(long id, Client newData) throws DaoException {
@@ -104,6 +104,7 @@ public class ClientDao {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
+				assert rs.getLong("id") == id;
 				client = new Client(id, rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
 				                    rs.getDate("naissance").toLocalDate());
 			}

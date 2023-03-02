@@ -13,7 +13,7 @@ public class VehicleDao {
 	private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES(?, ?, ?);";
 	private static final String DELETE_VEHICLE_QUERY = "DELETE FROM Vehicle WHERE id=?;";
 	private static final String UPDATE_VEHICLE_QUERY = "UPDATE Vehicule SET constructeur=?, modele=?, nb_places=? WHERE id=?;";
-	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE " + "id=?;";
+	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE id=?;";
 	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle;";
 	private static VehicleDao instance = null;
 
@@ -28,7 +28,7 @@ public class VehicleDao {
 	}
 
 	public long create(Vehicle vehicle) throws DaoException {
-		long vehicle_id = 0;
+		long vehicleId = 0;
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(CREATE_VEHICLE_QUERY,
@@ -40,7 +40,7 @@ public class VehicleDao {
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 
 			while (rs.next()) {
-				vehicle_id = rs.getLong("id");
+				vehicleId = rs.getLong("id");
 			}
 
 			preparedStatement.close();
@@ -50,21 +50,21 @@ public class VehicleDao {
 			throw new DaoException(e);
 		}
 
-		return vehicle_id;
+		return vehicleId;
 	}
 
 	public long delete(Vehicle vehicle) throws DaoException {
-		long vehicle_id = vehicle.getIdentifier();
+		long vehicleId = vehicle.getIdentifier();
 		try {
 			Connection connection = ConnectionManager.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(DELETE_VEHICLE_QUERY,
 			                                                                  Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setLong(1, vehicle_id);
+			preparedStatement.setLong(1, vehicleId);
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 
 			while (rs.next()) {
-				assert rs.getLong("id") == vehicle_id;
+				assert rs.getLong("id") == vehicleId;
 			}
 
 			preparedStatement.close();
@@ -74,7 +74,7 @@ public class VehicleDao {
 			throw new DaoException(e);
 		}
 
-		return vehicle_id;
+		return vehicleId;
 	}
 
 	public void update(long id, Vehicle newData) throws DaoException {
@@ -104,6 +104,7 @@ public class VehicleDao {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
+				assert rs.getLong("id") == id;
 				vehicle = new Vehicle(id, rs.getString("constructeur"), rs.getString("modele"),
 				                      rs.getShort("nb_places"));
 			}
