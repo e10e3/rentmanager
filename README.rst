@@ -8,7 +8,11 @@ software for a mock rental agency.
 Use
 ====
 
-This project uses `Maven <https://maven.apache.org>`_ as a build system.
+This project uses `Maven <https://maven.apache.org>`_ as a build system and Tomcat as a web server.
+
+To start the web app::
+
+    mvn tomcat7:run
 
 Architecture
 =============
@@ -19,6 +23,8 @@ Dependencies
 This project was build using Java 17.
 
 - `H2 database <https://h2database.com>`_
+- `Tomcat <https://tomcat.apache.org/>`_
+- Servlet
 
 License
 ========
