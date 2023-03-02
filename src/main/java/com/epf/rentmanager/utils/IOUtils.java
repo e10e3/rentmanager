@@ -10,17 +10,17 @@ public class IOUtils {
 	/**
 	 * Affiche un message sur la sortie standard
 	 *
-	 * @param message
+	 * @param message Le message à afficher
 	 */
 	public static void print(String message) {
 		System.out.println(message);
 	}
 
 	/**
-	 * Affiche un message sur la sortie standard
+	 * Affiche un message sur la sortie standard et en lit un autre
 	 *
-	 * @param message
-	 * @param mandatory
+	 * @param message Le message à afficher
+	 * @param mandatory Si l'entrée d'un message est obligatoire
 	 */
 	public static String readString(String message, boolean mandatory) {
 		print(message);
@@ -35,7 +35,7 @@ public class IOUtils {
 
 			input = readString();
 			attempt++;
-		} while (mandatory && (input.isEmpty() || input == null));
+		} while (mandatory && (input.isBlank() || input == null));
 
 		return input;
 	}
@@ -45,16 +45,15 @@ public class IOUtils {
 	 */
 	public static String readString() {
 		Scanner scanner = new Scanner(System.in);
-		String value = scanner.nextLine();
 
-		return value;
+		return scanner.nextLine();
 	}
 
 	/**
 	 * Lit un entier sur l'entrée standard
 	 *
-	 * @param message
-	 * @return
+	 * @param message L'invitation à écrire
+	 * @return L'entier lu
 	 */
 	public static int readInt(String message) {
 		print(message);
@@ -81,9 +80,9 @@ public class IOUtils {
 	/**
 	 * Lit une date sur l'entrée standard
 	 *
-	 * @param message
-	 * @param mandatory
-	 * @return
+	 * @param message L'invitation à écrire
+	 * @param mandatory S'i lest obligatoire d'entrer une date
+	 * @return La date lue
 	 */
 	public static LocalDate readDate(String message, boolean mandatory) {
 		print(message);

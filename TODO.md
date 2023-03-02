@@ -35,16 +35,16 @@ Exercise 5
 
 - [X] Create the package `ui.cli`.
 - The interface shall be able to:
-    - [ ] create a client,
-    - [ ] list all clients,
-    - [ ] create a vehicle,
-    - [ ] list all vehicle,
-    - [ ] delete a client,
-    - [ ] delete a vehicle.
+    - [X] create a client,
+    - [X] list all clients,
+    - [X] create a vehicle,
+    - [X] list all vehicles,
+    - [X] delete a client,
+    - [X] delete a vehicle.
 - Tips:
-    - [ ] a client should have a last name, a first name, an email address, and a brith date,
-    - [ ] date and email address formats should be checked,
-    - [ ] the `IOUtils` class in the *utils* package contains some tools.
+    - [X] a client should have a last name, a first name, an email address, and a birth date,
+    - [X] date and email address formats should be checked,
+    - [X] the `IOUtils` class in the *utils* package contains some tools.
 
 Exercise 6
 -----------
@@ -52,6 +52,7 @@ Exercise 6
 - [X] Implement the `Reservation` model class.
 - [X] Implement the `ReservationDao` class.
 - [X] Create the `ReservationService` class.
-- [ ] Complete the interface with:
-    - [ ] creating a reservation,
-    - [ ] list all reservations.
+- [X] Complete the interface with:
+    - [X] creating a reservation,
+    - [X] list all reservations,
+    - [X] delete a reservation.
