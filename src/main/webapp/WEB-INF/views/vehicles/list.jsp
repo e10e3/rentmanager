@@ -42,7 +42,6 @@
                                     <td>${vehicle.constructor}</td>
                                     <td>${vehicle.model}</td>
                                     <td>${vehicle.seatCount}</td>
-                                    <!--<td>John Doe</td>-->
                                     <td>
                                         <a class="btn btn-primary disabled" href="car-detail.html">
                                             <i class="fa fa-play"></i>

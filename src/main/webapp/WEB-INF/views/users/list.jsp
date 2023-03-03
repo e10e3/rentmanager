@@ -1,4 +1,5 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <%@include file="/WEB-INF/views/common/head.jsp"%>
@@ -29,17 +30,18 @@
                                 <tr>
                                     <th style="width: 10px">#</th>
                                     <th>Nom</th>
-                                    <th>Prenom</th>
+                                    <th>Prénom</th>
                                     <th>Email</th>
                                     <th>Action</th>
                                 </tr>
+                                <c:forEach items="${clients}" var="client">
                                 <tr>
-                                    <td>1.</td>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>john.doe@epf.fr</td>
+                                    <td>${client.identifier}</td>
+                                    <td>${client.lastName}</td>
+                                    <td>${client.firstName}</td>
+                                    <td>${client.emailAddress}</td>
                                     <td>
-                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=1">
+                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=${client.identifier}">
                                         <i class="fa fa-play"></i>
                                         </a>
                                         <a class="btn btn-success disabled" href="#">
@@ -50,24 +52,7 @@
                                         </a>
                                     </td>
                                 </tr>
-
-                                <tr>
-                                    <td>2.</td>
-                                    <td>Jane</td>
-                                    <td>Doe</td>
-                                    <td>jane.doe@epf.fr</td>
-                                    <td>
-                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=2">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                </c:forEach>
                             </table>
                         </div>
                         <!-- /.box-body -->
