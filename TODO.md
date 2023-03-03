@@ -56,3 +56,13 @@ Exercise 6
     - [X] creating a reservation,
     - [X] list all reservations,
     - [X] delete a reservation.
+
+Web interface
+--------------
+
+- [ ] Display the real counts on the dashboard.
+- [ ] Create the *list* pages.
+- [ ] Create the *create* pages.
+- [ ] Create the *details* pages.
+- [ ] Create the *edit* pages.
+- [ ] Create *delete* pages.
