@@ -82,4 +82,13 @@ public class ClientService {
 		}
 	}
 
+	public int count() throws ServiceException {
+		try {
+			return clientDao.count();
+		} catch (DaoException e) {
+			e.printStackTrace();
+			throw new ServiceException(e);
+		}
+	}
+
 }

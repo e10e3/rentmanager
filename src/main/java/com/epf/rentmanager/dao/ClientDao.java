@@ -15,6 +15,7 @@ public class ClientDao {
 	private static final String UPDATE_CLIENT_QUERY = "UPDATE Client SET nom=?, prenom=?, email=?, naissance=? WHERE id=?;";
 	private static final String FIND_CLIENT_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
+	private static final String COUNT_CLIENTS_QUERY = "SELECT COUNT(id) AS count FROM Client;";
 	private static ClientDao instance = null;
 
 	private ClientDao() {
@@ -138,6 +139,25 @@ public class ClientDao {
 			throw new DaoException(e);
 		}
 		return clients;
+	}
+
+	public int count() throws DaoException {
+		int userCount = 0;
+		try {
+			Connection connection = ConnectionManager.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(COUNT_CLIENTS_QUERY);
+
+			if (rs.next()) {
+				userCount = rs.getInt("count");
+			}
+
+			statement.close();
+			statement.close();
+		} catch (SQLException e) {
+			throw new DaoException(e);
+		}
+		return userCount;
 	}
 
 }

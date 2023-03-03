@@ -60,7 +60,7 @@ Exercise 6
 Web interface
 --------------
 
-- [ ] Display the real counts on the dashboard.
+- [X] Display the real counts on the dashboard.
 - [ ] Create the *list* pages.
 - [ ] Create the *create* pages.
 - [ ] Create the *details* pages.
