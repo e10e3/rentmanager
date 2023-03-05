@@ -13,7 +13,7 @@ public class FillDatabase {
 
 	public static void main(String[] args) throws Exception {
 		try {
-			DeleteDbFiles.execute("~", "RentManagerDatabase", true);
+			DeleteDbFiles.execute(".", "RentManagerDatabase", true);
 			insertWithPreparedStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
