@@ -29,6 +29,7 @@ public class Menu {
 				IOUtils.print("Au revoir !");
 				quit = true;
 			}
+			default -> IOUtils.print("Option invalide.");
 		}
 	}
 
@@ -48,6 +49,7 @@ public class Menu {
 				IOUtils.print("Au revoir !");
 				quit = true;
 			}
+			default -> IOUtils.print("Option invalide.");
 		}
 	}
 
@@ -67,6 +69,7 @@ public class Menu {
 				IOUtils.print("Au revoir !");
 				quit = true;
 			}
+			default -> IOUtils.print("Option invalide.");
 		}
 	}
 
@@ -86,6 +89,7 @@ public class Menu {
 				IOUtils.print("Au revoir !");
 				quit = true;
 			}
+			default -> IOUtils.print("Option invalide.");
 		}
 	}
 }
