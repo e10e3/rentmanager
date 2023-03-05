@@ -33,7 +33,7 @@ public class VehicleService {
 			if (vehicle.getSeatCount() <= 0) {
 				throw new ServiceException("Number of seats must be at least one");
 			}
-			return VehicleDao.getInstance().create(vehicle);
+			return vehicleDao.create(vehicle);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -41,22 +41,23 @@ public class VehicleService {
 	}
 
 	public long delete(Vehicle vehicle) throws ServiceException {
+		ReservationService reservationService = ReservationService.getInstance();
 		try {
-			for (Reservation res : ReservationService.getInstance()
-					.findResaByVehicleId(vehicle.getIdentifier())) {
+			for (Reservation res : reservationService.findResaByVehicleId(vehicle.getIdentifier())) {
 				/* Remove vehicle from reservations */
 				res.setRentedVehicle(null);
-				ReservationService.getInstance().modify(res.getIdentifier(), res);
-			} return VehicleDao.getInstance().delete(vehicle);
+				reservationService.edit(res.getIdentifier(), res);
+			}
+			return vehicleDao.delete(vehicle);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
 		}
 	}
 
-	public void modify(long id, Vehicle newData) throws ServiceException {
+	public void edit(long id, Vehicle newData) throws ServiceException {
 		try {
-			VehicleDao.getInstance().update(id, newData);
+			vehicleDao.update(id, newData);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -65,7 +66,7 @@ public class VehicleService {
 
 	public Vehicle findById(long id) throws ServiceException {
 		try {
-			return VehicleDao.getInstance().findById(id);
+			return vehicleDao.findById(id);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -74,7 +75,7 @@ public class VehicleService {
 
 	public List<Vehicle> findAll() throws ServiceException {
 		try {
-			return VehicleDao.getInstance().findAll();
+			return vehicleDao.findAll();
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);

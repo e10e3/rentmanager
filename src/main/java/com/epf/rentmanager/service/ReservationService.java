@@ -41,7 +41,7 @@ public class ReservationService {
 		}
 	}
 
-	public void modify(long id, Reservation newData) throws ServiceException {
+	public void edit(long id, Reservation newData) throws ServiceException {
 		try {
 			reservationDao.update(id, newData);
 		} catch (DaoException e) {

@@ -21,7 +21,6 @@ public class ClientService {
 		if (instance == null) {
 			instance = new ClientService();
 		}
-
 		return instance;
 	}
 
@@ -34,7 +33,7 @@ public class ClientService {
 				throw new ServiceException("Last name cannot be empty.");
 			}
 			client.setLastName(client.getLastName().toUpperCase());
-			return ClientDao.getInstance().create(client);
+			return clientDao.create(client);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -42,22 +41,22 @@ public class ClientService {
 	}
 
 	public long delete(Client client) throws ServiceException {
+		ReservationService reservationService = ReservationService.getInstance();
 		try {
-			for (Reservation res : ReservationService.getInstance()
-					.findResaByClientId(client.getIdentifier())) {
+			for (Reservation res : reservationService.findResaByClientId(client.getIdentifier())) {
 				/* Reservations from a client can be deleted if the client is removed. */
-				ReservationService.getInstance().delete(res);
+				reservationService.delete(res);
 			}
-			return ClientDao.getInstance().delete(client);
+			return clientDao.delete(client);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
 		}
 	}
 
-	public void modify(long id, Client newData) throws ServiceException {
+	public void edit(long id, Client newData) throws ServiceException {
 		try {
-			ClientDao.getInstance().update(id, newData);
+			clientDao.update(id, newData);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -66,7 +65,7 @@ public class ClientService {
 
 	public Client findById(long id) throws ServiceException {
 		try {
-			return ClientDao.getInstance().findById(id);
+			return clientDao.findById(id);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -75,7 +74,7 @@ public class ClientService {
 
 	public List<Client> findAll() throws ServiceException {
 		try {
-			return ClientDao.getInstance().findAll();
+			return clientDao.findAll();
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);

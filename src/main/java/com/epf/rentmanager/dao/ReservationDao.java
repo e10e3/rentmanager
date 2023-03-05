@@ -20,10 +20,14 @@ public class ReservationDao {
 	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
 	private static final String FIND_RESERVATION_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation WHERE id=?;";
 	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
-	private static final String COUNT_RESERVATIONS_QUERY= "SELECT COUNT(id) AS count FROM Reservation;";
+	private static final String COUNT_RESERVATIONS_QUERY = "SELECT COUNT(id) AS count FROM Reservation;";
 	private static ReservationDao instance = null;
+	private final ClientService clientService;
+	private final VehicleService vehicleService;
 
 	private ReservationDao() {
+		this.clientService = ClientService.getInstance();
+		this.vehicleService = VehicleService.getInstance();
 	}
 
 	public static ReservationDao getInstance() {
@@ -110,8 +114,8 @@ public class ReservationDao {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				clientReservations.add(new Reservation(rs.getLong("id"), ClientService.getInstance().findById(clientId),
-				                                       VehicleService.getInstance().findById(rs.getLong("vehicle_id")),
+				clientReservations.add(new Reservation(rs.getLong("id"), clientService.findById(clientId),
+				                                       vehicleService.findById(rs.getLong("vehicle_id")),
 				                                       rs.getDate("debut").toLocalDate(),
 				                                       rs.getDate("fin").toLocalDate()));
 			}
@@ -135,9 +139,9 @@ public class ReservationDao {
 
 			while (rs.next()) {
 				vehicleReservations.add(
-						new Reservation(rs.getLong("id"), ClientService.getInstance().findById(rs.getLong("client_id")),
-						                VehicleService.getInstance().findById(vehicleId),
-						                rs.getDate("debut").toLocalDate(), rs.getDate("fin").toLocalDate()));
+						new Reservation(rs.getLong("id"), clientService.findById(rs.getLong("client_id")),
+						                vehicleService.findById(vehicleId), rs.getDate("debut").toLocalDate(),
+						                rs.getDate("fin").toLocalDate()));
 			}
 
 			preparedStatement.close();
@@ -158,8 +162,8 @@ public class ReservationDao {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				reservation = new Reservation(id, ClientService.getInstance().findById(rs.getLong("client_id")),
-				                              VehicleService.getInstance().findById(rs.getLong("vehicle_id")),
+				reservation = new Reservation(id, clientService.findById(rs.getLong("client_id")),
+				                              vehicleService.findById(rs.getLong("vehicle_id")),
 				                              rs.getDate("debut").toLocalDate(), rs.getDate("fin").toLocalDate());
 			}
 
@@ -180,10 +184,9 @@ public class ReservationDao {
 			ResultSet rs = statement.executeQuery(FIND_RESERVATIONS_QUERY);
 
 			while (rs.next()) {
-				reservations.add(
-						new Reservation(rs.getLong("id"), ClientService.getInstance().findById(rs.getLong("client_id")),
-						                VehicleService.getInstance().findById(rs.getLong("vehicle_id")),
-						                rs.getDate("debut").toLocalDate(), rs.getDate("fin").toLocalDate()));
+				reservations.add(new Reservation(rs.getLong("id"), clientService.findById(rs.getLong("client_id")),
+				                                 vehicleService.findById(rs.getLong("vehicle_id")),
+				                                 rs.getDate("debut").toLocalDate(), rs.getDate("fin").toLocalDate()));
 			}
 
 			statement.close();
