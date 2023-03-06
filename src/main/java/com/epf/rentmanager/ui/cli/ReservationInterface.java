@@ -42,17 +42,13 @@ public class ReservationInterface {
 	public static Reservation selectReservation() throws ServiceException {
 		List<Reservation> reservationList = ReservationService.getInstance().findAll();
 		int index;
-		int min = Integer.MAX_VALUE;
-		int max = Integer.MIN_VALUE;
 		do {
-			for (Reservation reservation : reservationList) {
-				long id = reservation.getIdentifier();
-				IOUtils.print(" [" + id + "] " + reservation);
-				min = Integer.min(min, (int) id);
-				max = Integer.max(max, (int) id);
+			for (int i = 0; i < reservationList.size(); i++) {
+
+				IOUtils.print(" [" + (i + 1) + "] " + reservationList.get(i));
 			}
 			index = IOUtils.readInt("Entrez un indice : ");
-		} while (index < min || index >= max);
+		} while (index < 1 || index > reservationList.size());
 
 		return reservationList.get(index - 1);
 	}

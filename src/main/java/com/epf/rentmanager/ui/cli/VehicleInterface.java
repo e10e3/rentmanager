@@ -41,17 +41,13 @@ public class VehicleInterface {
 		IOUtils.print("Sélectionner un véhicule");
 		List<Vehicle> vehicleList = VehicleService.getInstance().findAll();
 		int index;
-		int min = Integer.MAX_VALUE;
-		int max = Integer.MIN_VALUE;
 		do {
-			for (Vehicle vehicle : vehicleList) {
-				long id = vehicle.getIdentifier();
-				IOUtils.print(" [" + id + "] " + vehicle);
-				min = Integer.min(min, (int) id);
-				max = Integer.max(max, (int) id);
+			for (int i = 0; i < vehicleList.size(); i++) {
+
+				IOUtils.print(" [" + (i + 1) + "] " + vehicleList.get(i));
 			}
 			index = IOUtils.readInt("Entrez un indice : ");
-		} while (index < min || index >= max);
+		} while (index < 1 || index > vehicleList.size());
 
 		return vehicleList.get(index - 1);
 	}

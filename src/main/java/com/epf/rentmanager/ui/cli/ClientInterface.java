@@ -42,17 +42,12 @@ public class ClientInterface {
 		IOUtils.print("Sélectionner un client");
 		List<Client> clientList = ClientService.getInstance().findAll();
 		int index;
-		int min = Integer.MAX_VALUE;
-		int max = Integer.MIN_VALUE;
 		do {
-			for (Client client : clientList) {
-				long id = client.getIdentifier();
-				IOUtils.print(" [" + id + "] " + client);
-				min = Integer.min(min, (int) id);
-				max = Integer.max(max, (int) id);
+			for (int i = 0; i < clientList.size(); i++) {
+				IOUtils.print(" [" + (i + 1) + "] " + clientList.get(i));
 			}
 			index = IOUtils.readInt("Entrez un indice : ");
-		} while (index < min || index >= max);
+		} while (index < 1 || index > clientList.size());
 
 		return clientList.get(index - 1);
 	}
