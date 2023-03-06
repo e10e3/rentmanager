@@ -26,7 +26,7 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return constructor + " " + (model==null ? "":model) + " (" + seatCount + " places)";
+		return constructor + " " + (model==null ? "":model);
 
 	}
 

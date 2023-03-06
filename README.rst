@@ -10,6 +10,8 @@ Use
 
 This project uses `Maven <https://maven.apache.org>`_ as a build system and Tomcat as a web server.
 
+Before anything else, execute the class ``com.epf.rentmanager.FillDatabase`` at least once.
+
 To start the web app::
 
     mvn tomcat7:run
@@ -18,6 +20,10 @@ The site is available on http://localhost:8080/rentmanager.
 
 Architecture
 =============
+
+.. image:: architecture.svg
+	:height: 20em
+	:align: center
 
 Dependencies
 =============

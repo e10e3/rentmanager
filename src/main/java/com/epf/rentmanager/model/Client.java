@@ -23,7 +23,7 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return firstName + " " + lastName + " (" + emailAddress + ")";
+		return firstName + " " + lastName;
 	}
 
 	@Override

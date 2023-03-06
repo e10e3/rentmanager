@@ -42,7 +42,7 @@ Exercise 5
     - [X] delete a client,
     - [X] delete a vehicle.
 - Tips:
-    - [X] a client should have a last name, a first name, an email address, and a birth date,
+    - [X] a client should have a last name, a first name, an email address, and a birthdate,
     - [X] date and email address formats should be checked,
     - [X] the `IOUtils` class in the *utils* package contains some tools.
 
