@@ -8,9 +8,13 @@ import com.epf.rentmanager.utils.IOUtils;
 import java.util.List;
 
 public class VehicleInterface {
-	public static void listVehicles() {
+	private final VehicleService vehicleService = VehicleService.getInstance();
+	public VehicleInterface() {
+	}
+
+	public  void listVehicles() {
 		try {
-			for (Vehicle vehicle : VehicleService.getInstance().findAll()) {
+			for (Vehicle vehicle : vehicleService.findAll()) {
 				IOUtils.print(vehicle.toString());
 			}
 		} catch (ServiceException e) {
@@ -18,7 +22,7 @@ public class VehicleInterface {
 		}
 	}
 
-	public static void createVehicle() {
+	public  void createVehicle() {
 		IOUtils.print("Création d'un véhicule");
 		Vehicle veh = new Vehicle();
 		veh.setConstructor(IOUtils.readString("Entrez le nom du contructeur : ", true));
@@ -29,7 +33,7 @@ public class VehicleInterface {
 		} while (seatCount < 1 || seatCount > 200);
 		veh.setSeatCount((short) seatCount);
 		try {
-			long resId = VehicleService.getInstance().create(veh);
+			long resId = vehicleService.create(veh);
 			IOUtils.print("Véhicule créé avec l'identifiant " + resId);
 		} catch (ServiceException e) {
 			e.printStackTrace();
@@ -37,9 +41,9 @@ public class VehicleInterface {
 		}
 	}
 
-	public static Vehicle selectVehicle() throws ServiceException {
+	public  Vehicle selectVehicle() throws ServiceException {
 		IOUtils.print("Sélectionner un véhicule");
-		List<Vehicle> vehicleList = VehicleService.getInstance().findAll();
+		List<Vehicle> vehicleList = vehicleService.findAll();
 		int index;
 		do {
 			for (int i = 0; i < vehicleList.size(); i++) {
@@ -52,11 +56,11 @@ public class VehicleInterface {
 		return vehicleList.get(index - 1);
 	}
 
-	public static void deleteVehicle() {
+	public  void deleteVehicle() {
 		IOUtils.print("Supprimer un véhicule");
 		try {
 			long index = selectVehicle().getIdentifier();
-			long deleted = VehicleService.getInstance().delete(VehicleService.getInstance().findById(index));
+			long deleted = vehicleService.delete(vehicleService.findById(index));
 			assert deleted == index;
 
 			IOUtils.print("Supprimé.");

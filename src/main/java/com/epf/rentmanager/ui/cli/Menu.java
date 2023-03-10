@@ -4,15 +4,24 @@ import com.epf.rentmanager.utils.IOUtils;
 
 public class Menu {
 	private static boolean quit = false;
+	private final ClientInterface clientInterface;
+	private final VehicleInterface vehicleInterface;
+	private final ReservationInterface reservationInterface;
 
-	public static void main(String[] args) {
-		System.out.println("Bienvenue dans l'application.");
+	public Menu() {
+		this.clientInterface = new ClientInterface();
+		this.vehicleInterface = new VehicleInterface();
+		this.reservationInterface = new ReservationInterface(clientInterface, vehicleInterface);
+	}
+
+	public void entryPoint() {
+		IOUtils.print("Bienvenue dans l'application.");
 		while (!quit) {
 			displayMenu();
 		}
 	}
 
-	public static void displayMenu() {
+	public void displayMenu() {
 		IOUtils.print("Que voulez-vous faire ?");
 		IOUtils.print("""
                     [1] Lister des enregistrements
@@ -33,7 +42,7 @@ public class Menu {
 		}
 	}
 
-	public static void displayListOptions() {
+	public void displayListOptions() {
 		IOUtils.print("""
                     [1] Lister les clients
                     [2] Lister les véhicules
@@ -42,9 +51,9 @@ public class Menu {
 
 		int choice = IOUtils.readInt("Entrez votre choix : ");
 		switch (choice) {
-			case 1 -> ClientInterface.listClients();
-			case 2 -> VehicleInterface.listVehicles();
-			case 3 -> ReservationInterface.listReservations();
+			case 1 -> clientInterface.listClients();
+			case 2 -> vehicleInterface.listVehicles();
+			case 3 -> reservationInterface.listReservations();
 			case 4 -> {
 				IOUtils.print("Au revoir !");
 				quit = true;
@@ -53,7 +62,7 @@ public class Menu {
 		}
 	}
 
-	public static void displayCreateOptions() {
+	public void displayCreateOptions() {
 		IOUtils.print("""
                     [1] Créer un client
                     [2] Créer un véhicule
@@ -62,9 +71,9 @@ public class Menu {
 
 		int choice = IOUtils.readInt("Entrez votre choix : ");
 		switch (choice) {
-			case 1 -> ClientInterface.createClient();
-			case 2 -> VehicleInterface.createVehicle();
-			case 3 -> ReservationInterface.createReservation();
+			case 1 -> clientInterface.createClient();
+			case 2 -> vehicleInterface.createVehicle();
+			case 3 -> reservationInterface.createReservation();
 			case 4 -> {
 				IOUtils.print("Au revoir !");
 				quit = true;
@@ -73,7 +82,7 @@ public class Menu {
 		}
 	}
 
-	public static void displayDeleteOptions() {
+	public void displayDeleteOptions() {
 		IOUtils.print("""
                     [1] Supprimer un client
                     [2] Supprimer un véhicule
@@ -82,9 +91,9 @@ public class Menu {
 
 		int choice = IOUtils.readInt("Entrez votre choix : ");
 		switch (choice) {
-			case 1 -> ClientInterface.deleteClient();
-			case 2 -> VehicleInterface.deleteVehicle();
-			case 3 -> ReservationInterface.deleteReservation();
+			case 1 -> clientInterface.deleteClient();
+			case 2 -> vehicleInterface.deleteVehicle();
+			case 3 -> reservationInterface.deleteReservation();
 			case 4 -> {
 				IOUtils.print("Au revoir !");
 				quit = true;

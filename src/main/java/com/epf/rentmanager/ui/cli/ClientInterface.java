@@ -8,9 +8,14 @@ import com.epf.rentmanager.utils.IOUtils;
 import java.util.List;
 
 public class ClientInterface {
-	public static void listClients() {
+	private final ClientService clientService = ClientService.getInstance();
+
+	public ClientInterface() {
+	}
+
+	public void listClients() {
 		try {
-			for (Client client : ClientService.getInstance().findAll()) {
+			for (Client client : clientService.findAll()) {
 				IOUtils.print(client.toString());
 			}
 		} catch (ServiceException e) {
@@ -18,7 +23,7 @@ public class ClientInterface {
 		}
 	}
 
-	public static void createClient() {
+	public void createClient() {
 		IOUtils.print("Création d'un client");
 		Client cli = new Client();
 		cli.setLastName(IOUtils.readString("Entrez le nom : ", true).toUpperCase());
@@ -30,7 +35,7 @@ public class ClientInterface {
 		} while (!email.matches("^(.+)@(\\S+)$"));
 		cli.setEmailAddress(email);
 		try {
-			long resId = ClientService.getInstance().create(cli);
+			long resId = clientService.create(cli);
 			IOUtils.print("Le client a été créé avec l'identifiant " + resId);
 		} catch (ServiceException e) {
 			e.printStackTrace();
@@ -38,9 +43,9 @@ public class ClientInterface {
 		}
 	}
 
-	public static Client selectClient() throws ServiceException {
+	public Client selectClient() throws ServiceException {
 		IOUtils.print("Sélectionner un client");
-		List<Client> clientList = ClientService.getInstance().findAll();
+		List<Client> clientList = clientService.findAll();
 		int index;
 		do {
 			for (int i = 0; i < clientList.size(); i++) {
@@ -52,11 +57,11 @@ public class ClientInterface {
 		return clientList.get(index - 1);
 	}
 
-	public static void deleteClient() {
+	public void deleteClient() {
 		IOUtils.print("Supprimer un client");
 		try {
 			long index = selectClient().getIdentifier();
-			long deleted = ClientService.getInstance().delete(ClientService.getInstance().findById(index));
+			long deleted = clientService.delete(clientService.findById(index));
 			assert deleted == index;
 
 			IOUtils.print("Supprimé.");

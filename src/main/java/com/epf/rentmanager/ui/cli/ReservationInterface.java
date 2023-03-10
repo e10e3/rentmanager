@@ -9,9 +9,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ReservationInterface {
-	public static void listReservations() {
+	private final ReservationService reservationService = ReservationService.getInstance();
+	private final ClientInterface clientInterface;
+	private final VehicleInterface vehicleInterface;
+	public ReservationInterface(ClientInterface clientInterface, VehicleInterface vehicleInterface) {
+		this.clientInterface = clientInterface;
+		this.vehicleInterface = vehicleInterface;
+	}
+
+	public void listReservations() {
 		try {
-			for (Reservation reservation : ReservationService.getInstance().findAll()) {
+			for (Reservation reservation : reservationService.findAll()) {
 				IOUtils.print(reservation.toString());
 			}
 		} catch (ServiceException e) {
@@ -19,19 +27,19 @@ public class ReservationInterface {
 		}
 	}
 
-	public static void createReservation() {
+	public void createReservation() {
 		IOUtils.print("Création d'une réservation");
 		Reservation res = new Reservation();
 		try {
-			res.setRenterClient(ClientInterface.selectClient());
-			res.setRentedVehicle(VehicleInterface.selectVehicle());
+			res.setRenterClient(clientInterface.selectClient());
+			res.setRentedVehicle(vehicleInterface.selectVehicle());
 			res.setStartDate(IOUtils.readDate("Entrez une date de début de réservation : ", true));
 			LocalDate end;
 			do {
 				end = IOUtils.readDate("Entrez une date de fin de réservation : ", true);
 			} while (end.isBefore(res.getStartDate()));
 			res.setEndDate(end);
-			long resId = ReservationService.getInstance().create(res);
+			long resId = reservationService.create(res);
 			IOUtils.print("La réservation a été créée avec l'identifiant " + resId);
 		} catch (ServiceException e) {
 			e.printStackTrace();
@@ -39,8 +47,8 @@ public class ReservationInterface {
 		}
 	}
 
-	public static Reservation selectReservation() throws ServiceException {
-		List<Reservation> reservationList = ReservationService.getInstance().findAll();
+	public Reservation selectReservation() throws ServiceException {
+		List<Reservation> reservationList = reservationService.findAll();
 		int index;
 		do {
 			for (int i = 0; i < reservationList.size(); i++) {
@@ -53,11 +61,11 @@ public class ReservationInterface {
 		return reservationList.get(index - 1);
 	}
 
-	public static void deleteReservation() {
+	public void deleteReservation() {
 		IOUtils.print("Supprimer une réservation");
 		try {
 			long index = selectReservation().getIdentifier();
-			long deleted = ReservationService.getInstance().delete(ReservationService.getInstance().findById(index));
+			long deleted = reservationService.delete(reservationService.findById(index));
 			assert deleted == index;
 
 			IOUtils.print("Supprimé.");
