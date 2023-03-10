@@ -3,7 +3,6 @@ package com.epf.rentmanager.service;
 import com.epf.rentmanager.dao.VehicleDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.model.Vehicle;
 
 import java.util.List;
@@ -43,12 +42,11 @@ public class VehicleService {
 	public long delete(Vehicle vehicle) throws ServiceException {
 		ReservationService reservationService = ReservationService.getInstance();
 		try {
-			for (Reservation res : reservationService.findResaByVehicleId(vehicle.getIdentifier())) {
-				/* Remove vehicle from reservations */
-				res.setRentedVehicle(null);
-				reservationService.edit(res.getIdentifier(), res);
+			if (reservationService.findResaByVehicleId(vehicle.getIdentifier()).size() > 0) {
+				throw new ServiceException("Des réservations sont associées à ce véhicule et bloquent la suppression.");
+			} else {
+				return vehicleDao.delete(vehicle);
 			}
-			return vehicleDao.delete(vehicle);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
