@@ -1,16 +1,42 @@
 package com.epf.rentmanager.main;
 
+import com.epf.rentmanager.config.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.model.Client;
+import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.ClientService;
+import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.time.LocalDate;
 
 public class Test {
 	public static void main(String[] args) {
+		ApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
+		ClientService clientService = context.getBean(ClientService.class);
+		VehicleService vehicleService = context.getBean(VehicleService.class);
+		ReservationService reservationService = context.getBean(ReservationService.class);
 		try {
-			System.out.println(ClientService.getInstance().findAll());
-			System.out.println(VehicleService.getInstance().findAll());
-			System.out.println(ClientService.getInstance().findById(1L));
-			System.out.println(VehicleService.getInstance().findById(2L));
+			System.out.println(clientService.findAll());
+			System.out.println(vehicleService.findAll());
+			System.out.println(clientService.findById(1L));
+			System.out.println(vehicleService.findById(2L));
+			Client cli = new Client(5, "Testy", "McTestface", "test@example.org", LocalDate.now());
+			Vehicle veh = new Vehicle(7, "Constr", "Mod", (short) 10);
+			System.out.println(clientService.create(cli));
+			System.out.println(vehicleService.create(veh));
+			clientService.edit(1L,
+			                   new Client(0, "Test", "Mod", "test@m" + ".org", LocalDate.now()));
+			System.out.println(clientService.findById(1L));
+			System.out.println(clientService.findAll());
+			System.out.println(vehicleService.findAll());
+			System.out.println(reservationService.findAll());
+			System.out.println(reservationService.findById(1L));
+			System.out.println(reservationService.findAll());
+			System.out.println(reservationService.findResaByClientId(1L));
+			System.out.println(reservationService.findResaByVehicleId(1L));
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

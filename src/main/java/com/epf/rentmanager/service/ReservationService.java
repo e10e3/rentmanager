@@ -4,24 +4,18 @@ import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Reservation;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class ReservationService {
-	public static ReservationService instance;
 	private final ReservationDao reservationDao;
 
-	private ReservationService() {
-		this.reservationDao = ReservationDao.getInstance();
+	private ReservationService(ReservationDao reservationDao) {
+		this.reservationDao = reservationDao;
 	}
 
-	public static ReservationService getInstance() {
-		if (instance == null) {
-			instance = new ReservationService();
-		}
-
-		return instance;
-	}
 
 	public long create(Reservation reservation) throws ServiceException {
 		try {
@@ -78,6 +72,7 @@ public class ReservationService {
 	}
 
 	public List<Reservation> findAll() throws ServiceException {
+		// fix this
 		try {
 			return reservationDao.findAll();
 		} catch (DaoException e) {

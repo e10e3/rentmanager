@@ -5,11 +5,13 @@ import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.persistence.ConnectionManager;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ReservationDao {
 	private static final String CLIENT_FIELDS = "Client.id, nom, prenom, email, naissance";
 	private static final String VEHICLE_FIELDS = "Vehicle.id, constructeur, modele, nb_places";
@@ -32,17 +34,6 @@ public class ReservationDao {
 			"SELECT Reservation.id, Reservation.client_id, vehicle_id, debut, fin, " +
 			CLIENT_FIELDS + ", " + VEHICLE_FIELDS + " FROM Reservation " + INNER_JOIN_TABLES + ";";
 	private static final String COUNT_RESERVATIONS_QUERY = "SELECT COUNT(id) AS count FROM Reservation;";
-	private static ReservationDao instance = null;
-
-	private ReservationDao() {
-	}
-
-	public static ReservationDao getInstance() {
-		if (instance == null) {
-			instance = new ReservationDao();
-		}
-		return instance;
-	}
 
 	public long create(Reservation reservation) throws DaoException {
 		long reservationId = 0;

@@ -8,11 +8,13 @@ import com.epf.rentmanager.utils.IOUtils;
 import java.util.List;
 
 public class VehicleInterface {
-	private final VehicleService vehicleService = VehicleService.getInstance();
-	public VehicleInterface() {
+	private final VehicleService vehicleService;
+
+	public VehicleInterface(VehicleService vehicleService) {
+		this.vehicleService = vehicleService;
 	}
 
-	public  void listVehicles() {
+	public void listVehicles() {
 		try {
 			for (Vehicle vehicle : vehicleService.findAll()) {
 				IOUtils.print(vehicle.toString());

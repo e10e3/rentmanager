@@ -8,9 +8,10 @@ import com.epf.rentmanager.utils.IOUtils;
 import java.util.List;
 
 public class ClientInterface {
-	private final ClientService clientService = ClientService.getInstance();
+	private final ClientService clientService;
 
-	public ClientInterface() {
+	public ClientInterface(ClientService clientService) {
+		this.clientService = clientService;
 	}
 
 	public void listClients() {

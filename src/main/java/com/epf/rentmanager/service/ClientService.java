@@ -5,24 +5,21 @@ import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class ClientService {
 
-	public static ClientService instance;
 	private final ClientDao clientDao;
+	private final ReservationService reservationService;
 
-	private ClientService() {
-		this.clientDao = ClientDao.getInstance();
+	private ClientService(ClientDao clientDao, ReservationService reservationService) {
+		this.clientDao = clientDao;
+		this.reservationService = reservationService;
 	}
 
-	public static ClientService getInstance() {
-		if (instance == null) {
-			instance = new ClientService();
-		}
-		return instance;
-	}
 
 	public long create(Client client) throws ServiceException {
 		try {
@@ -41,7 +38,6 @@ public class ClientService {
 	}
 
 	public long delete(Client client) throws ServiceException {
-		ReservationService reservationService = ReservationService.getInstance();
 		try {
 			for (Reservation res : reservationService.findResaByClientId(client.getIdentifier())) {
 				/* Reservations from a client can be deleted if the client is removed. */

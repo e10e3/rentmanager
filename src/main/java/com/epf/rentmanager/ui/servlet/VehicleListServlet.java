@@ -14,10 +14,16 @@ import java.util.List;
 
 @WebServlet("/cars")
 public class VehicleListServlet extends HttpServlet {
+	private final VehicleService vehicleService;
+
+	public VehicleListServlet(VehicleService vehicleService) {
+		this.vehicleService = vehicleService;
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Vehicle> vehicleList = null;
 		try {
-			 vehicleList = VehicleService.getInstance().findAll();
+			 vehicleList = vehicleService.findAll();
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

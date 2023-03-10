@@ -4,24 +4,18 @@ import com.epf.rentmanager.dao.VehicleDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.model.Vehicle;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class VehicleService {
-
-	public static VehicleService instance;
 	private final VehicleDao vehicleDao;
+	private final ReservationService reservationService;
 
-	private VehicleService() {
-		this.vehicleDao = VehicleDao.getInstance();
-	}
-
-	public static VehicleService getInstance() {
-		if (instance == null) {
-			instance = new VehicleService();
-		}
-
-		return instance;
+	private VehicleService(VehicleDao vehicleDao, ReservationService reservationService) {
+		this.vehicleDao = vehicleDao;
+		this.reservationService = reservationService;
 	}
 
 	public long create(Vehicle vehicle) throws ServiceException {
@@ -40,7 +34,6 @@ public class VehicleService {
 	}
 
 	public long delete(Vehicle vehicle) throws ServiceException {
-		ReservationService reservationService = ReservationService.getInstance();
 		try {
 			if (reservationService.findResaByVehicleId(vehicle.getIdentifier()).size() > 0) {
 				throw new ServiceException("Des réservations sont associées à ce véhicule et bloquent la suppression.");

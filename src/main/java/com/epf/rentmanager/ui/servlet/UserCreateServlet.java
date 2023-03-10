@@ -14,7 +14,11 @@ import java.time.LocalDate;
 
 @WebServlet("/users/create")
 public class UserCreateServlet extends HttpServlet {
-	ClientService clientService = ClientService.getInstance();
+	ClientService clientService;
+
+	public UserCreateServlet(ClientService clientService) {
+		this.clientService = clientService;
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);

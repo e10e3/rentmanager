@@ -9,10 +9,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ReservationInterface {
-	private final ReservationService reservationService = ReservationService.getInstance();
+	private final ReservationService reservationService;
 	private final ClientInterface clientInterface;
 	private final VehicleInterface vehicleInterface;
-	public ReservationInterface(ClientInterface clientInterface, VehicleInterface vehicleInterface) {
+
+	public ReservationInterface(ReservationService reservationService,
+	                            ClientInterface clientInterface,
+	                            VehicleInterface vehicleInterface) {
+		this.reservationService = reservationService;
 		this.clientInterface = clientInterface;
 		this.vehicleInterface = vehicleInterface;
 	}

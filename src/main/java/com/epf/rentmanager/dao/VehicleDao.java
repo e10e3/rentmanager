@@ -3,11 +3,13 @@ package com.epf.rentmanager.dao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.persistence.ConnectionManager;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class VehicleDao {
 
 	private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur, modele, nb_places) VALUES(?, ?, ?);";
@@ -16,17 +18,6 @@ public class VehicleDao {
 	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle WHERE id=?;";
 	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur, modele, nb_places FROM Vehicle;";
 	private static final String COUNT_VEHICLES_QUERY = "SELECT COUNT(id) AS count FROM Vehicle;";
-	private static VehicleDao instance = null;
-
-	private VehicleDao() {
-	}
-
-	public static VehicleDao getInstance() {
-		if (instance == null) {
-			instance = new VehicleDao();
-		}
-		return instance;
-	}
 
 	public long create(Vehicle vehicle) throws DaoException {
 		long vehicleId = 0;

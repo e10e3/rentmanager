@@ -16,9 +16,15 @@ import java.time.LocalDate;
 
 @WebServlet("/rents/create")
 public class RentalCreateServlet extends HttpServlet {
-	ReservationService reservationService = ReservationService.getInstance();
-	ClientService clientService = ClientService.getInstance();
-	VehicleService vehicleService = VehicleService.getInstance();
+	ReservationService reservationService;
+	ClientService clientService;
+	VehicleService vehicleService;
+
+	public RentalCreateServlet(ReservationService reservationService, ClientService clientService, VehicleService vehicleService) {
+		this.reservationService = reservationService;
+		this.clientService = clientService;
+		this.vehicleService = vehicleService;
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {

@@ -12,7 +12,11 @@ import java.io.IOException;
 
 @WebServlet("/users")
 public class UserListServlet extends HttpServlet {
-	private final ClientService clientService = ClientService.getInstance();
+	private final ClientService clientService;
+
+	public UserListServlet(ClientService clientService) {
+		this.clientService = clientService;
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {

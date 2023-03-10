@@ -12,7 +12,11 @@ import java.io.IOException;
 
 @WebServlet("/rents")
 public class RentalListServlet extends HttpServlet {
-	private final ReservationService reservationService = ReservationService.getInstance();
+	private final ReservationService reservationService;
+
+	public RentalListServlet(ReservationService reservationService) {
+		this.reservationService = reservationService;
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {

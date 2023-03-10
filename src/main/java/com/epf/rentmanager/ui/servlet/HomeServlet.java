@@ -15,15 +15,24 @@ import java.io.Serial;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
-
 	@Serial
 	private static final long serialVersionUID = 1L;
 
+	ClientService clientService;
+	VehicleService vehicleService;
+	ReservationService reservationService;
+
+	public HomeServlet(ClientService clientService, VehicleService vehicleService, ReservationService reservationService) {
+		this.clientService = clientService;
+		this.vehicleService = vehicleService;
+		this.reservationService = reservationService;
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			request.setAttribute("vehicleCount", VehicleService.getInstance().count());
-			request.setAttribute("clientCount", ClientService.getInstance().count());
-			request.setAttribute("reservationCount", ReservationService.getInstance().count());
+			request.setAttribute("clientCount", clientService.count());
+			request.setAttribute("vehicleCount", vehicleService.count());
+			request.setAttribute("reservationCount", reservationService.count());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

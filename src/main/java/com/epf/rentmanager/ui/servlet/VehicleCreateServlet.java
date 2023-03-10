@@ -13,6 +13,13 @@ import java.io.IOException;
 
 @WebServlet("/cars/create")
 public class VehicleCreateServlet extends HttpServlet {
+
+	private final VehicleService vehicleService;
+
+	public VehicleCreateServlet(VehicleService vehicleService) {
+		this.vehicleService = vehicleService;
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(request, response);
 	}
@@ -25,7 +32,7 @@ public class VehicleCreateServlet extends HttpServlet {
 		vehicle.setModel(request.getParameter("modele"));
 		vehicle.setSeatCount(Short.parseShort(request.getParameter("seats")));
 		try {
-			VehicleService.getInstance().create(vehicle);
+			vehicleService.create(vehicle);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
