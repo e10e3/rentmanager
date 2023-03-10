@@ -18,6 +18,8 @@ public class VehicleCreateServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+
 		Vehicle vehicle = new Vehicle();
 		vehicle.setConstructor(request.getParameter("manufacturer"));
 		vehicle.setModel(request.getParameter("modele"));

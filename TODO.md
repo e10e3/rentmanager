@@ -62,7 +62,7 @@ Web interface
 
 - [X] Display the real counts on the dashboard.
 - [X] Create the *list* pages.
-- [ ] Create the *create* pages.
+- [X] Create the *create* pages.
 - [ ] Create the *details* pages.
 - [ ] Create the *edit* pages.
 - [ ] Create *delete* pages.
