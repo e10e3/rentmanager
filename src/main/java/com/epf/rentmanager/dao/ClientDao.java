@@ -18,13 +18,14 @@ public class ClientDao {
 	private static final String FIND_CLIENT_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
 	private static final String COUNT_CLIENTS_QUERY = "SELECT COUNT(id) AS count FROM Client;";
+	private static final String CHECK_IF_EMAIL_USED = "SELECT 1 FROM client WHERE email=? LIMIT 1;";
 
 	public long create(Client client) throws DaoException {
 		long clientId = 0;
 		try (
 				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(CREATE_CLIENT_QUERY,
-				                                                                  Statement.RETURN_GENERATED_KEYS)
+				PreparedStatement preparedStatement = connection.prepareStatement(
+						CREATE_CLIENT_QUERY, Statement.RETURN_GENERATED_KEYS)
 		) {
 			preparedStatement.setString(1, client.getLastName());
 			preparedStatement.setString(2, client.getFirstName());
@@ -47,8 +48,8 @@ public class ClientDao {
 		long clientId = client.getIdentifier();
 		try (
 				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CLIENT_QUERY,
-				                                                                  Statement.RETURN_GENERATED_KEYS)
+				PreparedStatement preparedStatement = connection.prepareStatement(
+						DELETE_CLIENT_QUERY, Statement.RETURN_GENERATED_KEYS)
 		) {
 			preparedStatement.setLong(1, clientId);
 			preparedStatement.executeUpdate();
@@ -67,7 +68,8 @@ public class ClientDao {
 	public void update(long id, Client newData) throws DaoException {
 		try (
 				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CLIENT_QUERY)
+				PreparedStatement preparedStatement = connection.prepareStatement(
+						UPDATE_CLIENT_QUERY)
 		) {
 			preparedStatement.setString(1, newData.getLastName());
 			preparedStatement.setString(2, newData.getFirstName());
@@ -92,8 +94,8 @@ public class ClientDao {
 
 			while (rs.next()) {
 				assert rs.getLong("id") == id;
-				client = new Client(id, rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
-				                    rs.getDate("naissance").toLocalDate());
+				client = new Client(id, rs.getString("nom"), rs.getString("prenom"),
+									rs.getString("email"), rs.getDate("naissance").toLocalDate());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,8 +114,8 @@ public class ClientDao {
 
 			while (rs.next()) {
 				clients.add(
-						new Client(rs.getLong("id"), rs.getString("nom"), rs.getString("prenom"), rs.getString("email"),
-						           rs.getDate("naissance").toLocalDate()));
+						new Client(rs.getLong("id"), rs.getString("nom"), rs.getString("prenom"),
+								   rs.getString("email"), rs.getDate("naissance").toLocalDate()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,6 +139,25 @@ public class ClientDao {
 			throw new DaoException(e);
 		}
 		return userCount;
+	}
+
+	public boolean isEmailUsed(String emailAddress) throws DaoException {
+		boolean exists = false;
+		try (
+				Connection connection = ConnectionManager.getConnection();
+				PreparedStatement statement = connection.prepareStatement(CHECK_IF_EMAIL_USED)
+		) {
+			statement.setString(1, emailAddress);
+			ResultSet rs = statement.executeQuery();
+
+			if (rs.next()) {
+				exists = rs.getBoolean(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DaoException(e);
+		}
+		return exists;
 	}
 
 }

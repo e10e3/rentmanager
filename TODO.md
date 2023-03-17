@@ -71,9 +71,9 @@ Web interface
 Constrains
 ------------
 
-- [ ] A client must be at least 18 years old.
-- [ ] Two different clients cannot have the same email address.
-- [ ] The last name and first name of a client must each be at least three
+- [X] A client must be at least 18 years old.
+- [X] Two different clients cannot have the same email address.
+- [X] The last name and first name of a client must each be at least three
 characters long.
 - [ ] A vehicle cannot have two reservations on the same day.
 - [ ] A vehicle cannot be booked more than seven days in a row by the same

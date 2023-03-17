@@ -15,9 +15,9 @@ public class Client {
 
 	public Client(long identifier, String lastName, String firstName, String emailAddress, LocalDate birthDate) {
 		this.identifier = identifier;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.emailAddress = emailAddress;
+		this.lastName = lastName.trim();
+		this.firstName = firstName.trim();
+		this.emailAddress = emailAddress.trim();
 		this.birthDate = birthDate;
 	}
 
@@ -63,7 +63,7 @@ public class Client {
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = lastName.trim();
 	}
 
 	public String getFirstName() {
@@ -71,7 +71,7 @@ public class Client {
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = firstName.trim();
 	}
 
 	public String getEmailAddress() {
@@ -79,7 +79,7 @@ public class Client {
 	}
 
 	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+		this.emailAddress = emailAddress.trim();
 	}
 
 	public LocalDate getBirthDate() {

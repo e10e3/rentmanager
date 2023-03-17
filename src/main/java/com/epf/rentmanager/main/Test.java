@@ -23,12 +23,13 @@ public class Test {
 			System.out.println(vehicleService.findAll());
 			System.out.println(clientService.findById(1L));
 			System.out.println(vehicleService.findById(2L));
-			Client cli = new Client(5, "Testy", "McTestface", "test@example.org", LocalDate.now());
+			Client cli = new Client(5, "Testy", "McTestface", "test@example.org",
+									LocalDate.of(2000, 1, 1));
 			Vehicle veh = new Vehicle(7, "Constr", "Mod", (short) 10);
 			System.out.println(clientService.create(cli));
 			System.out.println(vehicleService.create(veh));
 			clientService.edit(1L,
-			                   new Client(0, "Test", "Mod", "test@m" + ".org", LocalDate.now()));
+							   new Client(0, "Test", "Mod", "test@m" + ".org", LocalDate.now()));
 			System.out.println(clientService.findById(1L));
 			System.out.println(clientService.findAll());
 			System.out.println(vehicleService.findAll());

@@ -7,10 +7,13 @@ import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Repository
 public class ClientService {
+	private static final int MINIMUM_AGE = 18;
 
 	private final ClientDao clientDao;
 	private final ReservationService reservationService;
@@ -20,19 +23,38 @@ public class ClientService {
 		this.reservationService = reservationService;
 	}
 
-
 	public long create(Client client) throws ServiceException {
 		try {
-			if (client.getFirstName().isBlank()) {
-				throw new ServiceException("First name cannot be empty.");
-			}
-			if (client.getLastName().isBlank()) {
-				throw new ServiceException("Last name cannot be empty.");
-			}
+			isValid(client);
 			client.setLastName(client.getLastName().toUpperCase());
 			return clientDao.create(client);
 		} catch (DaoException e) {
 			e.printStackTrace();
+			throw new ServiceException(e);
+		}
+	}
+
+	/**
+	 * Checks if the client satisfies the constraints.
+	 *
+	 * @param client The client to check.
+	 * @throws ServiceException If the client is not valid, with the failed criterion.
+	 */
+	private void isValid(Client client) throws ServiceException {
+		if (client.getFirstName().length() < 3) {
+			throw new ServiceException("First name must be at least 3 characters long.");
+		}
+		if (client.getLastName().length() < 3) {
+			throw new ServiceException("Last name must be at least 3 characters long.");
+		}
+		if (Period.between(client.getBirthDate(), LocalDate.now()).getYears() < MINIMUM_AGE) {
+			throw new ServiceException("The client must be 18 or older.");
+		}
+		try {
+			if (clientDao.isEmailUsed(client.getEmailAddress())) {
+				throw new ServiceException("This email address is already registered.");
+			}
+		} catch (DaoException e) {
 			throw new ServiceException(e);
 		}
 	}
