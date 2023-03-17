@@ -66,7 +66,7 @@ Web interface
 - [X] Create the *create* pages.
 - [ ] Create the *details* pages.
 - [ ] Create the *edit* pages.
-- [ ] Create the *delete* pages.
+- [X] Create the *delete* pages.
 
 Constrains
 ------------
