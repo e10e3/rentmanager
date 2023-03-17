@@ -24,6 +24,9 @@ public class ClientService {
 	}
 
 	public long create(Client client) throws ServiceException {
+		if (client == null) {
+			throw new ServiceException("Client cannot be null.");
+		}
 		try {
 			isValid(client);
 			client.setLastName(client.getLastName().toUpperCase());
@@ -41,6 +44,9 @@ public class ClientService {
 	 * @throws ServiceException If the client is not valid, with the failed criterion.
 	 */
 	private void isValid(Client client) throws ServiceException {
+		if (client == null) {
+			throw new ServiceException("Client to check must not be null.");
+		}
 		if (client.getFirstName().length() < 3) {
 			throw new ServiceException("First name must be at least 3 characters long.");
 		}
@@ -60,6 +66,9 @@ public class ClientService {
 	}
 
 	public long delete(Client client) throws ServiceException {
+		if (client == null) {
+			throw new ServiceException("Client cannot be null.");
+		}
 		try {
 			for (Reservation res : reservationService.findResaByClientId(client.getIdentifier())) {
 				/* Reservations from a client can be deleted if the client is removed. */
@@ -73,6 +82,9 @@ public class ClientService {
 	}
 
 	public void edit(long id, Client newData) throws ServiceException {
+		if (newData == null) {
+			throw new ServiceException("New client cannot be null.");
+		}
 		try {
 			clientDao.update(id, newData);
 		} catch (DaoException e) {
