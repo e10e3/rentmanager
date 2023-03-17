@@ -49,15 +49,10 @@ public class ClientDao {
 		try (
 				Connection connection = ConnectionManager.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(
-						DELETE_CLIENT_QUERY, Statement.RETURN_GENERATED_KEYS)
+						DELETE_CLIENT_QUERY)
 		) {
 			preparedStatement.setLong(1, clientId);
-			preparedStatement.executeUpdate();
-			ResultSet rs = preparedStatement.getGeneratedKeys();
-
-			rs.next();
-			assert rs.getLong("id") == clientId;
-
+			preparedStatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DaoException(e);

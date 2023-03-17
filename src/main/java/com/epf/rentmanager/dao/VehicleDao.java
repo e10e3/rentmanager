@@ -23,8 +23,8 @@ public class VehicleDao {
 		long vehicleId = 0;
 		try (
 				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(CREATE_VEHICLE_QUERY,
-				                                                                  Statement.RETURN_GENERATED_KEYS)
+				PreparedStatement preparedStatement = connection.prepareStatement(
+						CREATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS)
 		) {
 			preparedStatement.setString(1, vehicle.getConstructor());
 			preparedStatement.setString(2, vehicle.getModel());
@@ -47,16 +47,11 @@ public class VehicleDao {
 		long vehicleId = vehicle.getIdentifier();
 		try (
 				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(DELETE_VEHICLE_QUERY,
-				                                                                  Statement.RETURN_GENERATED_KEYS)
+				PreparedStatement preparedStatement = connection.prepareStatement(
+						DELETE_VEHICLE_QUERY)
 		) {
 			preparedStatement.setLong(1, vehicleId);
-			preparedStatement.executeUpdate();
-			ResultSet rs = preparedStatement.getGeneratedKeys();
-
-			rs.next();
-			assert rs.getLong("id") == vehicleId;
-
+			preparedStatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DaoException(e);
@@ -67,7 +62,8 @@ public class VehicleDao {
 	public void update(long id, Vehicle newData) throws DaoException {
 		try (
 				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_VEHICLE_QUERY)
+				PreparedStatement preparedStatement = connection.prepareStatement(
+						UPDATE_VEHICLE_QUERY)
 		) {
 			preparedStatement.setString(1, newData.getConstructor());
 			preparedStatement.setString(2, newData.getModel());
@@ -84,7 +80,8 @@ public class VehicleDao {
 		Vehicle vehicle = null;
 		try (
 				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(FIND_VEHICLE_QUERY)
+				PreparedStatement preparedStatement = connection.prepareStatement(
+						FIND_VEHICLE_QUERY)
 		) {
 			preparedStatement.setLong(1, id);
 			ResultSet rs = preparedStatement.executeQuery();
@@ -92,7 +89,7 @@ public class VehicleDao {
 			while (rs.next()) {
 				assert rs.getLong("id") == id;
 				vehicle = new Vehicle(id, rs.getString("constructeur"), rs.getString("modele"),
-				                      rs.getShort("nb_places"));
+									  rs.getShort("nb_places"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -110,8 +107,8 @@ public class VehicleDao {
 			ResultSet rs = statement.executeQuery(FIND_VEHICLES_QUERY);
 
 			while (rs.next()) {
-				vehicles.add(new Vehicle(rs.getInt("id"), rs.getString("constructeur"), rs.getString("modele"),
-				                         rs.getShort("nb_places")));
+				vehicles.add(new Vehicle(rs.getInt("id"), rs.getString("constructeur"),
+										 rs.getString("modele"), rs.getShort("nb_places")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

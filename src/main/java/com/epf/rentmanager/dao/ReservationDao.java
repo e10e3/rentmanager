@@ -16,20 +16,21 @@ public class ReservationDao {
 	private static final String CLIENT_FIELDS = "Client.id, nom, prenom, email, naissance";
 	private static final String VEHICLE_FIELDS = "Vehicle.id, constructeur, modele, nb_places";
 	private static final String INNER_JOIN_TABLES = "INNER JOIN Client ON Reservation.client_id = Client.id INNER JOIN Vehicle ON Reservation.vehicle_id = Vehicle.id";
-
 	private static final String CREATE_RESERVATION_QUERY = "INSERT INTO Reservation(client_id, vehicle_id, debut, fin) VALUES(?, ?, ?, ?);";
 	private static final String DELETE_RESERVATION_QUERY = "DELETE FROM Reservation WHERE id=?;";
 	private static final String UPDATE_RESERVATION_QUERY = "UPDATE Reservation SET client_id=?, vehicle_id=?, debut=?, fin=? WHERE id=?;";
 	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY =
 			"SELECT Reservation.id, Reservation.vehicle_id, debut, fin, " + CLIENT_FIELDS + ", " +
-			VEHICLE_FIELDS + " FROM Reservation " + INNER_JOIN_TABLES + " WHERE Reservation.client_id=?;";
+			VEHICLE_FIELDS + " FROM Reservation " + INNER_JOIN_TABLES +
+			" WHERE Reservation.client_id=?;";
 	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY =
 			"SELECT Reservation.id, Reservation.client_id, debut, fin, " + CLIENT_FIELDS + ", " +
-			VEHICLE_FIELDS + " FROM Reservation " + INNER_JOIN_TABLES + " WHERE Reservation.vehicle_id=?;";
+			VEHICLE_FIELDS + " FROM Reservation " + INNER_JOIN_TABLES +
+			" WHERE Reservation.vehicle_id=?;";
 	private static final String FIND_RESERVATION_QUERY =
 			"SELECT Reservation.id, Reservation.client_id, vehicle_id, debut, fin, " +
-			CLIENT_FIELDS + ", " + VEHICLE_FIELDS + " FROM Reservation " +
-			INNER_JOIN_TABLES + " WHERE Reservation.id=?;";
+			CLIENT_FIELDS + ", " + VEHICLE_FIELDS + " FROM Reservation " + INNER_JOIN_TABLES +
+			" WHERE Reservation.id=?;";
 	private static final String FIND_RESERVATIONS_QUERY =
 			"SELECT Reservation.id, Reservation.client_id, vehicle_id, debut, fin, " +
 			CLIENT_FIELDS + ", " + VEHICLE_FIELDS + " FROM Reservation " + INNER_JOIN_TABLES + ";";
@@ -64,14 +65,10 @@ public class ReservationDao {
 		try (
 				Connection connection = ConnectionManager.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(
-						DELETE_RESERVATION_QUERY, Statement.RETURN_GENERATED_KEYS)
+						DELETE_RESERVATION_QUERY)
 		) {
 			preparedStatement.setLong(1, reservationId);
-			preparedStatement.executeUpdate();
-			ResultSet rs = preparedStatement.getGeneratedKeys();
-
-			rs.next();
-			assert rs.getLong("id") == reservationId;
+			preparedStatement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DaoException(e);
@@ -109,14 +106,14 @@ public class ReservationDao {
 
 			while (rs.next()) {
 				Client client = new Client(rs.getLong("Client.id"), rs.getString("nom"),
-				                           rs.getString("prenom"), rs.getString("email"),
-				                           rs.getDate("naissance").toLocalDate());
+										   rs.getString("prenom"), rs.getString("email"),
+										   rs.getDate("naissance").toLocalDate());
 				Vehicle vehicle = new Vehicle(rs.getLong("Vehicle.id"),
-				                              rs.getString("constructeur"), rs.getString("modele"),
-				                              rs.getShort("nb_places"));
+											  rs.getString("constructeur"), rs.getString("modele"),
+											  rs.getShort("nb_places"));
 				clientReservations.add(new Reservation(rs.getLong("id"), client, vehicle,
-				                                       rs.getDate("debut").toLocalDate(),
-				                                       rs.getDate("fin").toLocalDate()));
+													   rs.getDate("debut").toLocalDate(),
+													   rs.getDate("fin").toLocalDate()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,14 +134,14 @@ public class ReservationDao {
 
 			while (rs.next()) {
 				Client client = new Client(rs.getLong("Client.id"), rs.getString("nom"),
-				                           rs.getString("prenom"), rs.getString("email"),
-				                           rs.getDate("naissance").toLocalDate());
+										   rs.getString("prenom"), rs.getString("email"),
+										   rs.getDate("naissance").toLocalDate());
 				Vehicle vehicle = new Vehicle(rs.getLong("Vehicle.id"),
-				                              rs.getString("constructeur"), rs.getString("modele"),
-				                              rs.getShort("nb_places"));
+											  rs.getString("constructeur"), rs.getString("modele"),
+											  rs.getShort("nb_places"));
 				vehicleReservations.add(new Reservation(rs.getLong("id"), client, vehicle,
-				                                        rs.getDate("debut").toLocalDate(),
-				                                        rs.getDate("fin").toLocalDate()));
+														rs.getDate("debut").toLocalDate(),
+														rs.getDate("fin").toLocalDate()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -165,14 +162,14 @@ public class ReservationDao {
 
 			while (rs.next()) {
 				Client client = new Client(rs.getLong("Client.id"), rs.getString("nom"),
-				                           rs.getString("prenom"), rs.getString("email"),
-				                           rs.getDate("naissance").toLocalDate());
+										   rs.getString("prenom"), rs.getString("email"),
+										   rs.getDate("naissance").toLocalDate());
 				Vehicle vehicle = new Vehicle(rs.getLong("Vehicle.id"),
-				                              rs.getString("constructeur"), rs.getString("modele"),
-				                              rs.getShort("nb_places"));
+											  rs.getString("constructeur"), rs.getString("modele"),
+											  rs.getShort("nb_places"));
 				reservation = new Reservation(id, client, vehicle,
-				                              rs.getDate("debut").toLocalDate(),
-				                              rs.getDate("fin").toLocalDate());
+											  rs.getDate("debut").toLocalDate(),
+											  rs.getDate("fin").toLocalDate());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -191,14 +188,14 @@ public class ReservationDao {
 
 			while (rs.next()) {
 				Client client = new Client(rs.getLong("Client.id"), rs.getString("nom"),
-				                           rs.getString("prenom"), rs.getString("email"),
-				                           rs.getDate("naissance").toLocalDate());
+										   rs.getString("prenom"), rs.getString("email"),
+										   rs.getDate("naissance").toLocalDate());
 				Vehicle vehicle = new Vehicle(rs.getLong("Vehicle.id"),
-				                              rs.getString("constructeur"), rs.getString("modele"),
-				                              rs.getShort("nb_places"));
+											  rs.getString("constructeur"), rs.getString("modele"),
+											  rs.getShort("nb_places"));
 				reservations.add(new Reservation(rs.getLong("id"), client, vehicle,
-				                                 rs.getDate("debut").toLocalDate(),
-				                                 rs.getDate("fin").toLocalDate()));
+												 rs.getDate("debut").toLocalDate(),
+												 rs.getDate("fin").toLocalDate()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
