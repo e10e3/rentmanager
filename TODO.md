@@ -81,5 +81,5 @@ customer.
 - [ ] A vehicle cannot be booked 30 days in a row without a pause.
 - [X] If a customer or a vehicle is deleted, all associated reservations must be
 deleted as well.
-- [ ] A vehicle must have a manufacturer, a model, and a seat count between 2 
+- [X] A vehicle must have a manufacturer, a model, and a seat count between 2 
 and 9.

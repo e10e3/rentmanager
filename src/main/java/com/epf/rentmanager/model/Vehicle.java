@@ -13,20 +13,14 @@ public class Vehicle {
 
 	public Vehicle(long identifier, String constructor, String model, short seatCount) {
 		this.identifier = identifier;
-		this.constructor = constructor;
-		this.model = model;
-		this.seatCount = seatCount;
-	}
-
-	public Vehicle(long identifier, String constructor, short seatCount) {
-		this.identifier = identifier;
-		this.constructor = constructor;
+		this.constructor = constructor.trim();
+		this.model = model.trim();
 		this.seatCount = seatCount;
 	}
 
 	@Override
 	public String toString() {
-		return constructor + " " + (model==null ? "":model);
+		return constructor + " " + (model == null ? "" : model);
 
 	}
 
@@ -65,7 +59,7 @@ public class Vehicle {
 	}
 
 	public void setConstructor(String constructor) {
-		this.constructor = constructor;
+		this.constructor = constructor.trim();
 	}
 
 	public String getModel() {
@@ -73,7 +67,7 @@ public class Vehicle {
 	}
 
 	public void setModel(String model) {
-		this.model = model;
+		this.model = model.trim();
 	}
 
 	public short getSeatCount() {

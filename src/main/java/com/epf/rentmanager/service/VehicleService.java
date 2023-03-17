@@ -21,16 +21,29 @@ public class VehicleService {
 
 	public long create(Vehicle vehicle) throws ServiceException {
 		try {
-			if (vehicle.getConstructor().isBlank()) {
-				throw new ServiceException("Constructor cannot be empty.");
-			}
-			if (vehicle.getSeatCount() <= 0) {
-				throw new ServiceException("Number of seats must be at least one");
-			}
+			isValid(vehicle);
 			return vehicleDao.create(vehicle);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
+		}
+	}
+
+	/**
+	 * Checks if the vehicle satisfies the constraints.
+	 *
+	 * @param vehicle The vehicle to check.
+	 * @throws ServiceException If the vehicle is not valid, with the failed criterion.
+	 */
+	private void isValid(Vehicle vehicle) throws ServiceException {
+		if (vehicle.getConstructor().isBlank()) {
+			throw new ServiceException("Constructor must be set.");
+		}
+		if (vehicle.getModel().isBlank()) {
+			throw new ServiceException("Model must be set.");
+		}
+		if (vehicle.getSeatCount() < 2 || vehicle.getSeatCount() > 9) {
+			throw new ServiceException("Number of seat must be at least 2 and at most 9.");
 		}
 	}
 
