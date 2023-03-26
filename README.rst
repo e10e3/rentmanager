@@ -22,7 +22,6 @@ Architecture
 =============
 
 .. image:: architecture.svg
-	:height: 20em
 	:align: center
 
 Dependencies
@@ -31,8 +30,11 @@ Dependencies
 This project was build using Java 17.
 
 - `H2 database <https://h2database.com>`_
-- `Tomcat <https://tomcat.apache.org/>`_
+- `Tomcat <https://tomcat.apache.org>`_
 - Servlet
+- `Spring <https://sptring.io>`_
+- `JUnit <https://junit.org/junit4/>`_
+- `Mockito <https://site.mockito.org/>`_
 
 License
 ========
