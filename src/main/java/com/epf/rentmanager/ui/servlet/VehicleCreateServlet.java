@@ -1,6 +1,7 @@
 package com.epf.rentmanager.ui.servlet;
 
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
@@ -44,6 +45,9 @@ public class VehicleCreateServlet extends HttpServlet {
 		try {
 			vehicleService.create(vehicle);
 		} catch (ServiceException e) {
+			e.printStackTrace();
+		} catch (ValidationException e) {
+			// TODO Display a message
 			e.printStackTrace();
 		}
 		response.sendRedirect("/rentmanager/cars");

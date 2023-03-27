@@ -3,6 +3,7 @@ package com.epf.rentmanager.service;
 import com.epf.rentmanager.dao.VehicleDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.model.Vehicle;
 import org.springframework.stereotype.Repository;
@@ -19,9 +20,9 @@ public class VehicleService {
 		this.reservationService = reservationService;
 	}
 
-	public long create(Vehicle vehicle) throws ServiceException {
-		try {
+	public long create(Vehicle vehicle) throws ServiceException, ValidationException {
 			isValid(vehicle);
+		try {
 			return vehicleDao.create(vehicle);
 		} catch (DaoException e) {
 			e.printStackTrace();
@@ -33,17 +34,17 @@ public class VehicleService {
 	 * Checks if the vehicle satisfies the constraints.
 	 *
 	 * @param vehicle The vehicle to check.
-	 * @throws ServiceException If the vehicle is not valid, with the failed criterion.
+	 * @throws ValidationException If the vehicle is not valid, with the failed criterion.
 	 */
-	private void isValid(Vehicle vehicle) throws ServiceException {
+	private void isValid(Vehicle vehicle) throws ValidationException {
 		if (vehicle.getConstructor().isBlank()) {
-			throw new ServiceException("Constructor must be set.");
+			throw new ValidationException("Constructor must be set.");
 		}
 		if (vehicle.getModel().isBlank()) {
-			throw new ServiceException("Model must be set.");
+			throw new ValidationException("Model must be set.");
 		}
 		if (vehicle.getSeatCount() < 2 || vehicle.getSeatCount() > 9) {
-			throw new ServiceException("Number of seat must be at least 2 and at most 9.");
+			throw new ValidationException("Number of seat must be at least 2 and at most 9.");
 		}
 	}
 

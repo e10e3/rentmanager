@@ -1,6 +1,7 @@
 package com.epf.rentmanager.ui.cli;
 
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.utils.IOUtils;
@@ -26,20 +27,24 @@ public class VehicleInterface {
 
 	public  void createVehicle() {
 		IOUtils.print("Création d'un véhicule");
-		Vehicle veh = new Vehicle();
-		veh.setConstructor(IOUtils.readString("Entrez le nom du contructeur : ", true));
-		veh.setModel(IOUtils.readString("Entrez le modèle : ", false));
+		String constructor = IOUtils.readString("Entrez le nom du contructeur : ", true);
+		String model = IOUtils.readString("Entrez le modèle : ", false);
 		int seatCount;
 		do {
 			seatCount = IOUtils.readInt("Entrez le nombre de sièges (1–200) : ");
 		} while (seatCount < 1 || seatCount > 200);
-		veh.setSeatCount((short) seatCount);
+		Vehicle veh = new Vehicle(0, constructor, model, (short) seatCount);
 		try {
 			long resId = vehicleService.create(veh);
 			IOUtils.print("Véhicule créé avec l'identifiant " + resId);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			IOUtils.print("Le véhicule n'a pas pu être créé.");
+		} catch (ValidationException e) {
+			e.printStackTrace();
+			IOUtils.print(
+					"Le véhicule %s est invalide : certaines propriétés sont invalides (%s)".formatted(
+							veh, e.getMessage()));
 		}
 	}
 

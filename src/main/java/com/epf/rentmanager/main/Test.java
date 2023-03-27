@@ -2,6 +2,7 @@ package com.epf.rentmanager.main;
 
 import com.epf.rentmanager.config.AppConfiguration;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.ClientService;
@@ -38,7 +39,7 @@ public class Test {
 			System.out.println(reservationService.findAll());
 			System.out.println(reservationService.findResaByClientId(1L));
 			System.out.println(reservationService.findResaByVehicleId(1L));
-		} catch (ServiceException e) {
+		} catch (ServiceException | ValidationException e) {
 			e.printStackTrace();
 		}
 	}

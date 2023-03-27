@@ -1,10 +1,12 @@
 package com.epf.rentmanager.ui.cli;
 
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.utils.IOUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ClientInterface {
@@ -26,21 +28,25 @@ public class ClientInterface {
 
 	public void createClient() {
 		IOUtils.print("Création d'un client");
-		Client cli = new Client();
-		cli.setLastName(IOUtils.readString("Entrez le nom : ", true).toUpperCase());
-		cli.setFirstName(IOUtils.readString("Entrez le prénom", true));
-		cli.setBirthDate(IOUtils.readDate("Entre la date de naissance (jj/mm/aaaa) : ", true));
+		String lastName = IOUtils.readString("Entrez le nom : ", true).toUpperCase();
+		String firstName = IOUtils.readString("Entrez le prénom", true);
+		LocalDate birthDate = IOUtils.readDate("Entre la date de naissance (jj/mm/aaaa) : ", true);
 		String email;
 		do {
 			email = IOUtils.readString("Entrez l'adresse courriel : ", true);
 		} while (!email.matches("^(.+)@(\\S+)$"));
-		cli.setEmailAddress(email);
+		Client cli = new Client(0, lastName, firstName, email, birthDate);
 		try {
 			long resId = clientService.create(cli);
 			IOUtils.print("Le client a été créé avec l'identifiant " + resId);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			IOUtils.print("Le client n'a pas pu être créé.");
+		} catch (ValidationException e) {
+			e.printStackTrace();
+			IOUtils.print(
+					"Le client %s n'a pas pu être validé : certaines propriétés sont invalides (%s).".formatted(
+							cli, e.getMessage()));
 		}
 	}
 

@@ -3,6 +3,7 @@ package com.epf.rentmanager;
 import com.epf.rentmanager.dao.ClientDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.service.ClientService;
@@ -30,8 +31,8 @@ public class ClientServiceTests {
 	private ClientDao clientDao;
 
 	@Test
-	public void create_should_fail_when_dao_throws_exception() throws DaoException {
-		Client client = new Client(0, "lastName", "firstName", "email", LocalDate.now());
+	public void create_should_fail_when_dao_create_throws_exception() throws DaoException {
+		Client client = new Client(0, "lastName", "firstName", "email", LocalDate.MIN);
 		when(this.clientDao.create(isA(Client.class))).thenThrow(DaoException.class);
 		assertThrows(ServiceException.class, () -> clientService.create(client));
 	}
@@ -72,26 +73,26 @@ public class ClientServiceTests {
 	@Test
 	public void create_should_fail_with_younger_client() {
 		Client client = new Client(0, "Test", "Test", "test", LocalDate.now());
-		assertThrows(ServiceException.class, () -> clientService.create(client));
+		assertThrows(ValidationException.class, () -> clientService.create(client));
 	}
 
 	@Test
 	public void create_should_fail_with_short_lastname() {
 		Client client = new Client(0, "no", "Test", "test", LocalDate.of(2000, 1, 1));
-		assertThrows(ServiceException.class, () -> clientService.create(client));
+		assertThrows(ValidationException.class, () -> clientService.create(client));
 	}
 
 	@Test
 	public void create_should_fail_with_short_firstname() {
 		Client client = new Client(0, "Test", "no", "test", LocalDate.of(2000, 1, 1));
-		assertThrows(ServiceException.class, () -> clientService.create(client));
+		assertThrows(ValidationException.class, () -> clientService.create(client));
 	}
 
 	@Test
 	public void create_should_fail_with_existing_email() throws DaoException {
 		Client client = new Client(0, "Test", "Test", "test", LocalDate.of(2000, 1, 1));
 		when(clientDao.isEmailUsed(isA(String.class))).thenReturn(true);
-		assertThrows(ServiceException.class, () -> clientService.create(client));
+		assertThrows(ValidationException.class, () -> clientService.create(client));
 	}
 
 	@Test
@@ -101,7 +102,7 @@ public class ClientServiceTests {
 	}
 
 	@Test
-	public void create_should_succeed_with_valid_client() throws DaoException, ServiceException {
+	public void create_should_succeed_with_valid_client() throws DaoException, ServiceException, ValidationException {
 		Client client = new Client(0, "Test", "Test", "test@test.test", LocalDate.of(2000, 1, 1));
 		when(clientDao.isEmailUsed(isA(String.class))).thenReturn(false);
 		when(clientDao.create(isA(Client.class))).thenReturn(0L);
