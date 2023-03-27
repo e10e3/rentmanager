@@ -27,7 +27,7 @@ Exercise 4
 - [X] Implement the `ClientService` and `VehicleService` classes.
     - [X] A client cannot be added with an empty first name or last name.
     - [X] A vehicle cannot be added with an empty constructor.
-    - [X] A vehicle must have a least one seat.
+    - [X] A vehicle must have at least one seat.
     - [X] A client’s last name should be set in UPPERCASE.
 
 Exercise 5

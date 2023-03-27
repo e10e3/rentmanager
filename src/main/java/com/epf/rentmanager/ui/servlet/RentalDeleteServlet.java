@@ -24,7 +24,7 @@ public class RentalDeleteServlet extends HttpServlet {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int rentalId = Integer.parseInt(request.getParameter("id"));
 		try {
 			Reservation reservation = this.reservationService.findById(rentalId);

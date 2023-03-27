@@ -5,7 +5,6 @@ import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Client;
-import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import org.junit.Test;
@@ -15,11 +14,13 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientServiceTests {
@@ -39,9 +40,9 @@ public class ClientServiceTests {
 
 	@Test
 	public void delete_should_fail_when_dao_throws_exception() throws DaoException, ServiceException {
-		Client client = new Client();
+		Client client = new Client(0, "lastName", "firstName", "email", LocalDate.now());
 		when(this.clientDao.delete(isA(Client.class))).thenThrow(DaoException.class);
-		when(this.reservationService.delete(isA(Reservation.class))).thenReturn(0L);
+		when(this.reservationService.findResaByClientId(isA(Long.class))).thenReturn(List.of());
 		assertThrows(ServiceException.class, () -> clientService.delete(client));
 	}
 
@@ -96,8 +97,7 @@ public class ClientServiceTests {
 	}
 
 	@Test
-	public void create_should_fail_with_null_client() throws DaoException {
-		when(clientDao.isEmailUsed(isA(String.class))).thenReturn(true);
+	public void create_should_fail_with_null_client() {
 		assertThrows(ServiceException.class, () -> clientService.create(null));
 	}
 
@@ -110,17 +110,15 @@ public class ClientServiceTests {
 	}
 
 	@Test
-	public void delete_should_fail_on_null_client() throws DaoException, ServiceException {
-		when(reservationService.delete(isA(Reservation.class))).thenReturn(0L);
-		when(clientDao.delete(isA(Client.class))).thenReturn(0L);
+	public void delete_should_fail_on_null_client() {
 		assertThrows(ServiceException.class, () -> clientService.delete(null));
 	}
 
 	@Test
 	public void delete_should_succeed() throws DaoException, ServiceException {
 		Client client = new Client(0, "Test", "Test", "test@test.test", LocalDate.of(2000, 1, 1));
-		when(reservationService.delete(isA(Reservation.class))).thenReturn(0L);
 		when(clientDao.delete(isA(Client.class))).thenReturn(0L);
-		assertEquals(clientService.create(client), 0L);
+		when(this.reservationService.findResaByClientId(isA(Long.class))).thenReturn(List.of());
+		assertEquals(clientService.delete(client), 0L);
 	}
 }

@@ -44,7 +44,7 @@ public class VehicleService {
 			throw new ValidationException("Model must be set.");
 		}
 		if (vehicle.getSeatCount() < 2 || vehicle.getSeatCount() > 9) {
-			throw new ValidationException("Number of seat must be at least 2 and at most 9.");
+			throw new ValidationException("Number of seats must be at least 2 and at most 9.");
 		}
 	}
 

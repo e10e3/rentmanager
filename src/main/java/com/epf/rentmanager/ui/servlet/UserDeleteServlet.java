@@ -24,7 +24,7 @@ public class UserDeleteServlet extends HttpServlet {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int clientId = Integer.parseInt(request.getParameter("id"));
 		try {
 			Client client = this.clientService.findById(clientId);
