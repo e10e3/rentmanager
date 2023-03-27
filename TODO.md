@@ -83,3 +83,9 @@ customer.
 deleted as well.
 - [X] A vehicle must have a manufacturer, a model, and a seat count between 2 
 and 9.
+
+Style
+------
+
+- [ ] Use optionals were relevant
+- [ ] Use records for model classes
