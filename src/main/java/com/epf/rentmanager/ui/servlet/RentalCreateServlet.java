@@ -1,6 +1,7 @@
 package com.epf.rentmanager.ui.servlet;
 
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
@@ -41,7 +42,7 @@ public class RentalCreateServlet extends HttpServlet {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 
 		Reservation reservation = new Reservation();
@@ -52,6 +53,9 @@ public class RentalCreateServlet extends HttpServlet {
 			reservation.setEndDate(LocalDate.parse(request.getParameter("end")));
 			reservationService.create(reservation);
 		} catch (ServiceException e) {
+			e.printStackTrace();
+		} catch (ValidationException e) {
+			// TODO Display a message
 			e.printStackTrace();
 		}
 		response.sendRedirect("/rentmanager/rents");

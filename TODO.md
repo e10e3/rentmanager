@@ -75,10 +75,10 @@ Constrains
 - [X] Two different clients cannot have the same email address.
 - [X] The last name and first name of a client must each be at least three
 characters long.
-- [ ] A vehicle cannot have two reservations on the same day.
-- [ ] A vehicle cannot be booked more than seven days in a row by the same
+- [X] A vehicle cannot have two reservations on the same day.
+- [X] A vehicle cannot be booked more than seven days in a row by the same
 customer.
-- [ ] A vehicle cannot be booked 30 days in a row without a pause.
+- [X] A vehicle cannot be booked 30 days in a row without a pause.
 - [X] If a customer or a vehicle is deleted, all associated reservations must be
 deleted as well.
 - [X] A vehicle must have a manufacturer, a model, and a seat count between 2 

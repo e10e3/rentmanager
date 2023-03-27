@@ -1,6 +1,7 @@
 package com.epf.rentmanager.ui.cli;
 
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Reservation;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.utils.IOUtils;
@@ -48,6 +49,11 @@ public class ReservationInterface {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			IOUtils.print("La réservation n'a pas pu être créée.");
+		} catch (ValidationException e) {
+			e.printStackTrace();
+			IOUtils.print(
+					"La réservation est invalide : certaines propriétés sont invalides (%s)".formatted(
+							e.getMessage()));
 		}
 	}
 
