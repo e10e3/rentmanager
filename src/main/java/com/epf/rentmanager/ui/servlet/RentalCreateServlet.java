@@ -45,12 +45,11 @@ public class RentalCreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		Reservation reservation = new Reservation();
 		try {
-			reservation.setRentedVehicle(vehicleService.findById(Integer.parseInt(request.getParameter("car"))));
-			reservation.setRenterClient(clientService.findById(Integer.parseInt(request.getParameter("client"))));
-			reservation.setStartDate(LocalDate.parse(request.getParameter("begin")));
-			reservation.setEndDate(LocalDate.parse(request.getParameter("end")));
+			Reservation reservation = new Reservation(0, clientService.findById(
+					Integer.parseInt(request.getParameter("client"))), vehicleService.findById(
+					Integer.parseInt(request.getParameter("car"))), LocalDate.parse(
+					request.getParameter("begin")), LocalDate.parse(request.getParameter("end")));
 			reservationService.create(reservation);
 		} catch (ServiceException e) {
 			e.printStackTrace();

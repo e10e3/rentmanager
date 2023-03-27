@@ -26,9 +26,9 @@ public class VehicleDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(
 						CREATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS)
 		) {
-			preparedStatement.setString(1, vehicle.getConstructor());
-			preparedStatement.setString(2, vehicle.getModel());
-			preparedStatement.setShort(3, vehicle.getSeatCount());
+			preparedStatement.setString(1, vehicle.constructor());
+			preparedStatement.setString(2, vehicle.model());
+			preparedStatement.setShort(3, vehicle.seatCount());
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 
@@ -44,7 +44,7 @@ public class VehicleDao {
 	}
 
 	public long delete(Vehicle vehicle) throws DaoException {
-		long vehicleId = vehicle.getIdentifier();
+		long vehicleId = vehicle.identifier();
 		try (
 				Connection connection = ConnectionManager.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(
@@ -65,9 +65,9 @@ public class VehicleDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(
 						UPDATE_VEHICLE_QUERY)
 		) {
-			preparedStatement.setString(1, newData.getConstructor());
-			preparedStatement.setString(2, newData.getModel());
-			preparedStatement.setShort(3, newData.getSeatCount());
+			preparedStatement.setString(1, newData.constructor());
+			preparedStatement.setString(2, newData.model());
+			preparedStatement.setShort(3, newData.seatCount());
 			preparedStatement.setLong(4, id);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

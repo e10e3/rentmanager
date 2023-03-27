@@ -67,7 +67,7 @@ public class ClientInterface {
 	public void deleteClient() {
 		IOUtils.print("Supprimer un client");
 		try {
-			long index = selectClient().getIdentifier();
+			long index = selectClient().identifier();
 			long deleted = clientService.delete(clientService.findById(index));
 			assert deleted == index;
 

@@ -27,10 +27,10 @@ public class ClientDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(
 						CREATE_CLIENT_QUERY, Statement.RETURN_GENERATED_KEYS)
 		) {
-			preparedStatement.setString(1, client.getLastName());
-			preparedStatement.setString(2, client.getFirstName());
-			preparedStatement.setString(3, client.getEmailAddress());
-			preparedStatement.setDate(4, Date.valueOf(client.getBirthDate()));
+			preparedStatement.setString(1, client.lastName());
+			preparedStatement.setString(2, client.firstName());
+			preparedStatement.setString(3, client.emailAddress());
+			preparedStatement.setDate(4, Date.valueOf(client.birthDate()));
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 
@@ -45,7 +45,7 @@ public class ClientDao {
 	}
 
 	public long delete(Client client) throws DaoException {
-		long clientId = client.getIdentifier();
+		long clientId = client.identifier();
 		try (
 				Connection connection = ConnectionManager.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(
@@ -66,10 +66,10 @@ public class ClientDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(
 						UPDATE_CLIENT_QUERY)
 		) {
-			preparedStatement.setString(1, newData.getLastName());
-			preparedStatement.setString(2, newData.getFirstName());
-			preparedStatement.setString(3, newData.getEmailAddress());
-			preparedStatement.setDate(4, Date.valueOf(newData.getBirthDate()));
+			preparedStatement.setString(1, newData.lastName());
+			preparedStatement.setString(2, newData.firstName());
+			preparedStatement.setString(3, newData.emailAddress());
+			preparedStatement.setDate(4, Date.valueOf(newData.birthDate()));
 			preparedStatement.setLong(5, id);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

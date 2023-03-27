@@ -43,10 +43,10 @@ public class ReservationDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(
 						CREATE_RESERVATION_QUERY, Statement.RETURN_GENERATED_KEYS)
 		) {
-			preparedStatement.setLong(1, reservation.getRenterClient().getIdentifier());
-			preparedStatement.setLong(2, reservation.getRentedVehicle().getIdentifier());
-			preparedStatement.setDate(3, Date.valueOf(reservation.getStartDate()));
-			preparedStatement.setDate(4, Date.valueOf(reservation.getEndDate()));
+			preparedStatement.setLong(1, reservation.renterClient().identifier());
+			preparedStatement.setLong(2, reservation.rentedVehicle().identifier());
+			preparedStatement.setDate(3, Date.valueOf(reservation.startDate()));
+			preparedStatement.setDate(4, Date.valueOf(reservation.endDate()));
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 
@@ -61,7 +61,7 @@ public class ReservationDao {
 	}
 
 	public long delete(Reservation reservation) throws DaoException {
-		long reservationId = reservation.getIdentifier();
+		long reservationId = reservation.identifier();
 		try (
 				Connection connection = ConnectionManager.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(
@@ -82,10 +82,10 @@ public class ReservationDao {
 				PreparedStatement preparedStatement = connection.prepareStatement(
 						UPDATE_RESERVATION_QUERY)
 		) {
-			preparedStatement.setLong(1, newData.getRenterClient().getIdentifier());
-			preparedStatement.setLong(2, newData.getRentedVehicle().getIdentifier());
-			preparedStatement.setDate(3, Date.valueOf(newData.getStartDate()));
-			preparedStatement.setDate(4, Date.valueOf(newData.getEndDate()));
+			preparedStatement.setLong(1, newData.renterClient().identifier());
+			preparedStatement.setLong(2, newData.rentedVehicle().identifier());
+			preparedStatement.setDate(3, Date.valueOf(newData.startDate()));
+			preparedStatement.setDate(4, Date.valueOf(newData.endDate()));
 			preparedStatement.setLong(5, id);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {

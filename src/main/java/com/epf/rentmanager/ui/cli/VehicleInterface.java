@@ -66,7 +66,7 @@ public class VehicleInterface {
 	public  void deleteVehicle() {
 		IOUtils.print("Supprimer un véhicule");
 		try {
-			long index = selectVehicle().getIdentifier();
+			long index = selectVehicle().identifier();
 			long deleted = vehicleService.delete(vehicleService.findById(index));
 			assert deleted == index;
 

@@ -2,7 +2,9 @@ package com.epf.rentmanager.ui.cli;
 
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.exception.ValidationException;
+import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.model.Reservation;
+import com.epf.rentmanager.model.Vehicle;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.utils.IOUtils;
 
@@ -34,16 +36,16 @@ public class ReservationInterface {
 
 	public void createReservation() {
 		IOUtils.print("Création d'une réservation");
-		Reservation res = new Reservation();
 		try {
-			res.setRenterClient(clientInterface.selectClient());
-			res.setRentedVehicle(vehicleInterface.selectVehicle());
-			res.setStartDate(IOUtils.readDate("Entrez une date de début de réservation : ", true));
-			LocalDate end;
+			Client client = clientInterface.selectClient();
+			Vehicle vehicle = vehicleInterface.selectVehicle();
+			LocalDate startDate = IOUtils.readDate("Entrez une date de début de réservation : ",
+												   true);
+			LocalDate endDate;
 			do {
-				end = IOUtils.readDate("Entrez une date de fin de réservation : ", true);
-			} while (end.isBefore(res.getStartDate()));
-			res.setEndDate(end);
+				endDate = IOUtils.readDate("Entrez une date de fin de réservation : ", true);
+			} while (endDate.isBefore(startDate));
+			Reservation res = new Reservation(0, client, vehicle, startDate, endDate);
 			long resId = reservationService.create(res);
 			IOUtils.print("La réservation a été créée avec l'identifiant " + resId);
 		} catch (ServiceException e) {
@@ -74,7 +76,7 @@ public class ReservationInterface {
 	public void deleteReservation() {
 		IOUtils.print("Supprimer une réservation");
 		try {
-			long index = selectReservation().getIdentifier();
+			long index = selectReservation().identifier();
 			long deleted = reservationService.delete(reservationService.findById(index));
 			assert deleted == index;
 

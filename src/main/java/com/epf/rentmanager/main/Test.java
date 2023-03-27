@@ -30,8 +30,8 @@ public class Test {
 			Vehicle veh = new Vehicle(7, "Constr", "Mod", (short) 8);
 			cli = clientService.findById(clientService.create(cli));
 			veh = vehicleService.findById(vehicleService.create(veh));
-			System.out.println(cli.getIdentifier());
-			System.out.println(veh.getIdentifier());
+			System.out.println(cli.identifier());
+			System.out.println(veh.identifier());
 			clientService.edit(1L,
 							   new Client(0, "Test", "Mod", "test@m" + ".org", LocalDate.now()));
 			System.out.println(clientService.findById(1L));

@@ -75,8 +75,8 @@ public class ReservationService {
 	private void isValid(Reservation checkedReservation) throws ValidationException {
 		try {
 			/* Low-hanging fruits */
-			if (ChronoUnit.DAYS.between(checkedReservation.getStartDate(),
-										checkedReservation.getEndDate()) > MAX_DAYS_CLIENT_RENTAL) {
+			if (ChronoUnit.DAYS.between(checkedReservation.startDate(),
+										checkedReservation.endDate()) > MAX_DAYS_CLIENT_RENTAL) {
 				throw new ValidationException(
 						"A client cannot rent a vehicle for more than " + MAX_DAYS_CLIENT_RENTAL +
 						" days.");
@@ -84,21 +84,21 @@ public class ReservationService {
 
 			ArrayList<Reservation> sameVehicleReservations = new ArrayList<>(
 					this.findResaByVehicleId(
-							checkedReservation.getRentedVehicle().getIdentifier()));
+							checkedReservation.rentedVehicle().identifier()));
 			if (sameVehicleReservations.size() == 0) {
 				return;
 			}
 
 			/* ---------------------- */
 			if (sameVehicleReservations.stream()
-					.filter(r -> r.getStartDate().compareTo(checkedReservation.getStartDate()) < 1)
-					.anyMatch(r -> r.getEndDate().compareTo(checkedReservation.getStartDate()) > -1)) {
+					.filter(r -> r.startDate().compareTo(checkedReservation.startDate()) < 1)
+					.anyMatch(r -> r.endDate().compareTo(checkedReservation.startDate()) > -1)) {
 				throw new ValidationException(
 						"This reservation overlaps with an existing reservation.");
 			}
 			if (sameVehicleReservations.stream()
-					.filter(r -> r.getStartDate().compareTo(checkedReservation.getEndDate()) < 1)
-					.anyMatch(r -> r.getEndDate().compareTo(checkedReservation.getEndDate()) > -1)) {
+					.filter(r -> r.startDate().compareTo(checkedReservation.endDate()) < 1)
+					.anyMatch(r -> r.endDate().compareTo(checkedReservation.endDate()) > -1)) {
 				throw new ValidationException(
 						"This reservation overlaps with an existing reservation.");
 			}
@@ -106,25 +106,25 @@ public class ReservationService {
 			/* ---------------------- */
 			sameVehicleReservations.add(checkedReservation);
 			var sortedVehicleReservations = sameVehicleReservations.stream()
-					.sorted(Comparator.comparing(Reservation::getStartDate))
+					.sorted(Comparator.comparing(Reservation::startDate))
 					.toList();
 			LinkedList<DateRange> periodList = new LinkedList<>();
 			for (Reservation res : sortedVehicleReservations) {
 				if (periodList.isEmpty()) {
-					periodList.add(new DateRange(res.getStartDate(), res.getEndDate()));
+					periodList.add(new DateRange(res.startDate(), res.endDate()));
 					continue;
 				}
 				var lastElem = periodList.getLast();
-				if (lastElem.isContiguouslyFollowedBy(res.getStartDate())) {
+				if (lastElem.isContiguouslyFollowedBy(res.startDate())) {
 					periodList.removeLast();
-					periodList.addLast(new DateRange(lastElem.start(), res.getEndDate()));
+					periodList.addLast(new DateRange(lastElem.start(), res.endDate()));
 				} else {
-					periodList.addLast(new DateRange(res.getStartDate(), res.getEndDate()));
+					periodList.addLast(new DateRange(res.startDate(), res.endDate()));
 				}
 			}
 			for (DateRange dRange : periodList) {
-				if (dRange.contains(checkedReservation.getStartDate()) &&
-					dRange.contains(checkedReservation.getEndDate())) {
+				if (dRange.contains(checkedReservation.startDate()) &&
+					dRange.contains(checkedReservation.endDate())) {
 					if (dRange.durationInDays() >= MAX_DAYS_CONTIGUOUS_RENTAL) {
 						throw new ValidationException(
 								"A vehicle cannot be rented for " + MAX_DAYS_CONTIGUOUS_RENTAL +
@@ -136,27 +136,27 @@ public class ReservationService {
 
 			/* ---------------------- */
 			var sortedVehicleReservationsWithClient = sameVehicleReservations.stream()
-					.filter(r -> r.getRenterClient() == checkedReservation.getRenterClient())
-					.sorted(Comparator.comparing(Reservation::getStartDate))
+					.filter(r -> r.renterClient() == checkedReservation.renterClient())
+					.sorted(Comparator.comparing(Reservation::startDate))
 					.toList();
 
 			LinkedList<DateRange> periodListClient = new LinkedList<>();
 			for (Reservation res : sortedVehicleReservationsWithClient) {
 				if (periodListClient.isEmpty()) {
-					periodListClient.add(new DateRange(res.getStartDate(), res.getEndDate()));
+					periodListClient.add(new DateRange(res.startDate(), res.endDate()));
 					continue;
 				}
 				var lastElem = periodListClient.getLast();
-				if (lastElem.isContiguouslyFollowedBy(res.getStartDate())) {
+				if (lastElem.isContiguouslyFollowedBy(res.startDate())) {
 					periodListClient.removeLast();
-					periodListClient.addLast(new DateRange(lastElem.start(), res.getEndDate()));
+					periodListClient.addLast(new DateRange(lastElem.start(), res.endDate()));
 				} else {
-					periodListClient.addLast(new DateRange(res.getStartDate(), res.getEndDate()));
+					periodListClient.addLast(new DateRange(res.startDate(), res.endDate()));
 				}
 			}
 			for (DateRange dRange : periodListClient) {
-				if (dRange.contains(checkedReservation.getStartDate()) &&
-					dRange.contains(checkedReservation.getEndDate())) {
+				if (dRange.contains(checkedReservation.startDate()) &&
+					dRange.contains(checkedReservation.endDate())) {
 					if (dRange.durationInDays() > MAX_DAYS_CLIENT_RENTAL) {
 						throw new ValidationException(
 								"A client cannot rent a vehicle for more than " +

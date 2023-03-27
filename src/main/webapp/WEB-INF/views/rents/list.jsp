@@ -37,11 +37,11 @@
                                 </tr>
                                 <c:forEach items="${reservations}" var="reservation">
                                 <tr>
-                                    <td>${reservation.identifier}</td>
-                                    <td>${reservation.rentedVehicle}</td>
-                                    <td>${reservation.renterClient}</td>
-                                    <td>${reservation.startDate}</td>
-                                    <td>${reservation.endDate}</td>
+                                    <td>${reservation.identifier()}</td>
+                                    <td>${reservation.rentedVehicle()}</td>
+                                    <td>${reservation.renterClient()}</td>
+                                    <td>${reservation.startDate()}</td>
+                                    <td>${reservation.endDate()}</td>
                                     <td>
                                         <a class="btn btn-primary disabled" href="${pageContext.request.contextPath}/cars?id=1">
                                             <i class="fa fa-play"></i>
@@ -49,7 +49,7 @@
                                         <a class="btn btn-success disabled" href="#">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/rents/delete?id=${reservation.identifier}">
+                                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/rents/delete?id=${reservation.identifier()}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

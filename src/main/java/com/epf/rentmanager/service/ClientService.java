@@ -28,10 +28,10 @@ public class ClientService {
 		if (client == null) {
 			throw new ServiceException("Client cannot be null.");
 		}
-			isValid(client);
-			client.setLastName(client.getLastName().toUpperCase());
+		isValid(client);
+		Client formattedClient = formatClient(client);
 		try {
-			return clientDao.create(client);
+			return clientDao.create(formattedClient);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);
@@ -53,17 +53,17 @@ public class ClientService {
 		is not great and should be avoided, as legal names can be shorter than this.
 		All the 'Lu', 'Ty', 'Li' and 'O' cannot exist here.
 		*/
-		if (client.getFirstName().length() < 3) {
+		if (client.firstName().length() < 3) {
 			throw new ValidationException("First name must be at least 3 characters long.");
 		}
-		if (client.getLastName().length() < 3) {
+		if (client.lastName().length() < 3) {
 			throw new ValidationException("Last name must be at least 3 characters long.");
 		}
-		if (Period.between(client.getBirthDate(), LocalDate.now()).getYears() < MINIMUM_AGE) {
+		if (Period.between(client.birthDate(), LocalDate.now()).getYears() < MINIMUM_AGE) {
 			throw new ValidationException("The client must be 18 or older.");
 		}
 		try {
-			if (clientDao.isEmailUsed(client.getEmailAddress())) {
+			if (clientDao.isEmailUsed(client.emailAddress())) {
 				throw new ValidationException("This email address is already registered.");
 			}
 		} catch (DaoException e) {
@@ -71,12 +71,17 @@ public class ClientService {
 		}
 	}
 
+	private Client formatClient(Client client) {
+		return new Client(client.identifier(), client.lastName().toUpperCase(), client.firstName(),
+						  client.emailAddress(), client.birthDate());
+	}
+
 	public long delete(Client client) throws ServiceException {
 		if (client == null) {
 			throw new ServiceException("Client cannot be null.");
 		}
 		try {
-			for (Reservation res : reservationService.findResaByClientId(client.getIdentifier())) {
+			for (Reservation res : reservationService.findResaByClientId(client.identifier())) {
 				/* Reservations from a client can be deleted if the client is removed. */
 				reservationService.delete(res);
 			}

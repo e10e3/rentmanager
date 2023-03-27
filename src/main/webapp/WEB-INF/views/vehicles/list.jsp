@@ -38,10 +38,10 @@
                                 <tr>
 
                                 <c:forEach items="${vehicles}" var="vehicle">
-                                    <td>${vehicle.identifier}.</td>
-                                    <td>${vehicle.constructor}</td>
-                                    <td>${vehicle.model}</td>
-                                    <td>${vehicle.seatCount}</td>
+                                    <td>${vehicle.identifier()}.</td>
+                                    <td>${vehicle.constructor()}</td>
+                                    <td>${vehicle.model()}</td>
+                                    <td>${vehicle.seatCount()}</td>
                                     <td>
                                         <a class="btn btn-primary disabled" href="car-detail.html">
                                             <i class="fa fa-play"></i>
@@ -49,7 +49,7 @@
                                         <a class="btn btn-success disabled" href="#">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/cars/delete?id=${vehicle.identifier}">
+                                        <a class="btn btn-danger" href="${pageContext.request.contextPath}/cars/delete?id=${vehicle.identifier()}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

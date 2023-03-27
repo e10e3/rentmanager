@@ -3,8 +3,6 @@ package com.epf.rentmanager.ui.servlet;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.exception.ValidationException;
 import com.epf.rentmanager.model.Vehicle;
-import com.epf.rentmanager.service.ClientService;
-import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -19,11 +17,7 @@ import java.io.IOException;
 @WebServlet("/cars/create")
 public class VehicleCreateServlet extends HttpServlet {
 	@Autowired
-	ClientService clientService;
-	@Autowired
 	VehicleService vehicleService;
-	@Autowired
-	ReservationService reservationService;
 
 	@Override
 	public void init() throws ServletException {
@@ -38,10 +32,9 @@ public class VehicleCreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		Vehicle vehicle = new Vehicle();
-		vehicle.setConstructor(request.getParameter("manufacturer"));
-		vehicle.setModel(request.getParameter("modele"));
-		vehicle.setSeatCount(Short.parseShort(request.getParameter("seats")));
+		Vehicle vehicle = new Vehicle(0, request.getParameter("manufacturer"),
+									  request.getParameter("modele"),
+									  Short.parseShort(request.getParameter("seats")));
 		try {
 			vehicleService.create(vehicle);
 		} catch (ServiceException e) {

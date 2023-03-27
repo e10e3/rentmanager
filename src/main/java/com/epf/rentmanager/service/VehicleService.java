@@ -37,13 +37,13 @@ public class VehicleService {
 	 * @throws ValidationException If the vehicle is not valid, with the failed criterion.
 	 */
 	private void isValid(Vehicle vehicle) throws ValidationException {
-		if (vehicle.getConstructor().isBlank()) {
+		if (vehicle.constructor().isBlank()) {
 			throw new ValidationException("Constructor must be set.");
 		}
-		if (vehicle.getModel().isBlank()) {
+		if (vehicle.model().isBlank()) {
 			throw new ValidationException("Model must be set.");
 		}
-		if (vehicle.getSeatCount() < 2 || vehicle.getSeatCount() > 9) {
+		if (vehicle.seatCount() < 2 || vehicle.seatCount() > 9) {
 			throw new ValidationException("Number of seats must be at least 2 and at most 9.");
 		}
 	}
@@ -51,7 +51,7 @@ public class VehicleService {
 	public long delete(Vehicle vehicle) throws ServiceException {
 		try {
 			for (Reservation res : reservationService.findResaByVehicleId(
-					vehicle.getIdentifier())) {
+					vehicle.identifier())) {
 				reservationService.delete(res);
 			}
 			return vehicleDao.delete(vehicle);

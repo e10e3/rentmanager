@@ -88,4 +88,4 @@ Style
 ------
 
 - [ ] Use optionals were relevant
-- [ ] Use records for model classes
+- [X] Use records for model classes
