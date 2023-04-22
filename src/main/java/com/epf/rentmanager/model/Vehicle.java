@@ -16,6 +16,5 @@ public record Vehicle(long identifier, String constructor, String model, short s
 	@Override
 	public String toString() {
 		return constructor + " " + (model == null ? "" : model);
-
 	}
 }
