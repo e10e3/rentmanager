@@ -30,28 +30,24 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="last_name" class="col-sm-2 control-label">Nom</label>
-
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" required id="last_name" name="last_name" placeholder="Nom">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="first_name" class="col-sm-2 control-label">Prenom</label>
-
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" required id="first_name" name="first_name" placeholder="Prenom">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email" class="col-sm-2 control-label">Email</label>
-
+                                    <label for="email" class="col-sm-2 control-label">Courriel</label>
                                     <div class="col-sm-10">
                                         <input type="email" class="form-control" required id="email" name="email" placeholder="Email">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-sm-2 control-label">Date de naissance</label>
-
                                     <div class="col-sm-10">
                                         <input type="date" class="form-control" required id="naissance" name="naissance">
                                     </div>

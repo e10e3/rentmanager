@@ -87,5 +87,5 @@ and 9.
 Style
 ------
 
-- [ ] Use optionals were relevant
+- [ ] Use optionals where relevant
 - [X] Use records for model classes

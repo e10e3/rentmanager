@@ -10,7 +10,13 @@ Use
 
 This project uses `Maven <https://maven.apache.org>`_ as a build system and Tomcat as a web server.
 
-Before anything else, execute the class ``com.epf.rentmanager.FillDatabase`` at least once.
+To install the dependencies and build the project::
+
+    mvn clean install
+
+Before anything else, execute the class ``com.epf.rentmanager.FillDatabase`` at least once::
+
+    mvn exec:java -Dexec.mainClass="com.epf.rentmanager.persistence.FillDatabase"
 
 To start the web app::
 
