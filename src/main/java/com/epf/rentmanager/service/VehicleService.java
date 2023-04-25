@@ -21,7 +21,7 @@ public class VehicleService {
 	}
 
 	public long create(Vehicle vehicle) throws ServiceException, ValidationException {
-			isValid(vehicle);
+		isValid(vehicle);
 		try {
 			return vehicleDao.create(vehicle);
 		} catch (DaoException e) {
@@ -37,6 +37,9 @@ public class VehicleService {
 	 * @throws ValidationException If the vehicle is not valid, with the failed criterion.
 	 */
 	private void isValid(Vehicle vehicle) throws ValidationException {
+		if (vehicle == null) {
+			throw new ValidationException("The vehicle to check cannot be null");
+		}
 		if (vehicle.constructor().isBlank()) {
 			throw new ValidationException("Constructor must be set.");
 		}
@@ -50,8 +53,7 @@ public class VehicleService {
 
 	public long delete(Vehicle vehicle) throws ServiceException {
 		try {
-			for (Reservation res : reservationService.findResaByVehicleId(
-					vehicle.identifier())) {
+			for (Reservation res : reservationService.findResaByVehicleId(vehicle.identifier())) {
 				reservationService.delete(res);
 			}
 			return vehicleDao.delete(vehicle);
@@ -61,7 +63,8 @@ public class VehicleService {
 		}
 	}
 
-	public void edit(long id, Vehicle newData) throws ServiceException {
+	public void edit(long id, Vehicle newData) throws ServiceException, ValidationException {
+		isValid(newData);
 		try {
 			vehicleDao.update(id, newData);
 		} catch (DaoException e) {

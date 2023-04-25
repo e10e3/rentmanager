@@ -73,7 +73,7 @@
                                             <th style="width: 10px">#</th>
                                             <th>Modèle</th>
                                             <th>Constructeur</th>
-                                            <th style=>Nombre de places</th>
+                                            <th>Nombre de places</th>
                                         </tr>
                                         <c:forEach items="${rentedVehicles}" var="vehicle">
                                         <tr>

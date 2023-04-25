@@ -92,12 +92,14 @@ public class ClientService {
 		}
 	}
 
-	public void edit(long id, Client newData) throws ServiceException {
+	public void edit(long id, Client newData) throws ServiceException, ValidationException {
 		if (newData == null) {
 			throw new ServiceException("New client cannot be null.");
 		}
+		isValid(newData);
+		Client formattedNewData = formatClient(newData);
 		try {
-			clientDao.update(id, newData);
+			clientDao.update(id, formattedNewData);
 		} catch (DaoException e) {
 			e.printStackTrace();
 			throw new ServiceException(e);

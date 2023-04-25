@@ -75,6 +75,9 @@ public class ReservationService {
 	}
 
 	private void isValid(Reservation checkedReservation) throws ValidationException {
+		if (checkedReservation == null) {
+			throw new ValidationException("Reservation cannot be null");
+		}
 		try {
 			/* Low-hanging fruits */
 			if (ChronoUnit.DAYS.between(checkedReservation.startDate(),
@@ -181,7 +184,8 @@ public class ReservationService {
 		}
 	}
 
-	public void edit(long id, Reservation newData) throws ServiceException {
+	public void edit(long id, Reservation newData) throws ServiceException, ValidationException {
+		isValid(newData);
 		try {
 			reservationDao.update(id, newData);
 		} catch (DaoException e) {
