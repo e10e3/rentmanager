@@ -64,7 +64,7 @@ Web interface
 - [X] Display the real counts on the dashboard.
 - [X] Create the *list* pages.
 - [X] Create the *create* pages.
-- [ ] Create the *details* pages.
+- [X] Create the *details* pages.
 - [ ] Create the *edit* pages.
 - [X] Create the *delete* pages.
 
@@ -83,6 +83,7 @@ customer.
 deleted as well.
 - [X] A vehicle must have a manufacturer, a model, and a seat count between 2 
 and 9.
+- [ ] Add a validation error message in the web interface.
 
 Style
 ------

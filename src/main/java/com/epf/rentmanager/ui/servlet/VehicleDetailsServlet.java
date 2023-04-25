@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/users/details")
-public class UserDetailsServlet extends HttpServlet {
+@WebServlet("/cars/details")
+public class VehicleDetailsServlet extends HttpServlet {
 	@Autowired
 	ClientService clientService;
 	@Autowired
@@ -31,18 +31,17 @@ public class UserDetailsServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 						 HttpServletResponse response) throws ServletException, IOException {
-		int clientId = Integer.parseInt(request.getParameter("id"));
+		int vehicleId = Integer.parseInt(request.getParameter("id"));
 		try {
-			request.setAttribute("client", this.clientService.findById(clientId));
+			request.setAttribute("vehicle", this.vehicleService.findById(vehicleId));
 			request.setAttribute("reservations",
-								 this.reservationService.findResaByClientId(clientId));
-			request.setAttribute("rentedVehicles",
-								 this.reservationService.findRentedVehiclesByClientId(clientId));
+								 this.reservationService.findResaByVehicleId(vehicleId));
+			request.setAttribute("renterClients", this.reservationService.findRenterClientByVehicleId(vehicleId));
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 		this.getServletContext()
-				.getRequestDispatcher("/WEB-INF/views/users/details.jsp")
+				.getRequestDispatcher("/WEB-INF/views/vehicles/details.jsp")
 				.forward(request, response);
 	}
 }

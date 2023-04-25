@@ -43,7 +43,7 @@
                                     <td>${vehicle.model()}</td>
                                     <td>${vehicle.seatCount()}</td>
                                     <td>
-                                        <a class="btn btn-primary disabled" href="car-detail.html">
+                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/cars/details?id=${vehicle.identifier()}">
                                             <i class="fa fa-play"></i>
                                         </a>
                                         <a class="btn btn-success disabled" href="#">
