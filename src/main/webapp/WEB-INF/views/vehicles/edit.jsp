@@ -1,4 +1,5 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <%@include file="/WEB-INF/views/common/head.jsp"%>
@@ -14,7 +15,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Réservations
+                Voitures
             </h1>
         </section>
 
@@ -25,48 +26,37 @@
                     <!-- Horizontal Form -->
                     <div class="box">
                         <!-- form start -->
+                        <!-- Le  type de methode http qui sera appel� lors de action submit du formulaire -->
+                        <!-- est décrit an l'attribut "method" de la balise forme -->
+                        <!-- action indique à quelle "cible" sera envoyée la requête, ici notre Servlet qui sera bind sur -->
+                        <!-- /vehicles/create -->
                         <form class="form-horizontal" method="post">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="car" class="col-sm-2 control-label">Voiture</label>
-
+                                    <label for="manufacturer" class="col-sm-2 control-label">Marque</label>
+									<!-- Pour récupérer la valeur rentrée dans un champ input de cette jsp au niveau de votre servlet -->
+									<!-- vous devez passer par les méthodes getParameter de l'objet request, est spécifiant la valeur -->
+									<!-- de l'attribut "name" de l'input -->
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="car" name="car">
-                                            <c:forEach items="${vehicles}" var="vehicle">
-                                            <option value="${vehicle.identifier()}">${vehicle}</option>
-                                            </c:forEach>
-                                        </select>
+                                        <input type="text" class="form-control" required id="manufacturer" name="manufacturer" placeholder="Marque" value="${vehicle.constructor()}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="client" class="col-sm-2 control-label">Client</label>
-
+                                    <label for="modele" class="col-sm-2 control-label">Modèle</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="client" name="client">
-                                            <c:forEach items="${clients}" var="client">
-                                            <option value="${client.identifier()}">${client}</option>
-                                            </c:forEach>
-                                        </select>
+                                        <input type="text" class="form-control" required id="modele" name="modele" placeholder="Modèle" value="${vehicle.model()}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="begin" class="col-sm-2 control-label">Date de debut</label>
-
+                                    <label for="seats" class="col-sm-2 control-label">Nombre de places</label>
                                     <div class="col-sm-10">
-                                        <input type="date" class="form-control" id="begin" name="begin" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="end" class="col-sm-2 control-label">Date de fin</label>
-
-                                    <div class="col-sm-10">
-                                        <input type="date" class="form-control" id="end" name="end" required>
+                                        <input type="number" class="form-control" required id="seats" name="seats" placeholder="Nombre de places" min="2" max="9" value="${vehicle.seatCount()}">
                                     </div>
                                 </div>
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right">Ajouter</button>
+                                <button type="submit" class="btn btn-info pull-right">Modifier le véhicule</button>
                             </div>
                             <!-- /.box-footer -->
                         </form>
@@ -84,13 +74,5 @@
 <!-- ./wrapper -->
 
 <%@ include file="/WEB-INF/views/common/js_imports.jsp" %>
-<script src="${pageContext.request.contextPath}/resources/plugins/input-mask/jquery.inputmask.js"></script>
-<script src="${pageContext.request.contextPath}/resources/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="${pageContext.request.contextPath}/resources/plugins/input-mask/jquery.inputmask.extensions.js"></script>
-<script>
-    $(function () {
-        $('[data-mask]').inputmask()
-    });
-</script>
 </body>
 </html>

@@ -43,7 +43,7 @@ Exercise 5
     - [X] delete a vehicle.
 - Tips:
     - [X] a client should have a last name, a first name, an email address, and
-a birthdate,
+a date of birth,
     - [X] date and email address formats should be checked,
     - [X] the `IOUtils` class in the *utils* package contains some tools.
 
@@ -65,7 +65,7 @@ Web interface
 - [X] Create the *list* pages.
 - [X] Create the *create* pages.
 - [X] Create the *details* pages.
-- [ ] Create the *edit* pages.
+- [X] Create the *edit* pages.
 - [X] Create the *delete* pages.
 
 Constrains
