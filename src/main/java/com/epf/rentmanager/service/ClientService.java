@@ -63,7 +63,7 @@ public class ClientService {
 			throw new ValidationException("The client must be 18 or older.");
 		}
 		try {
-			if (clientDao.isEmailUsed(client.emailAddress())) {
+			if (clientDao.isEmailUsed(client.emailAddress(), client.identifier())) {
 				throw new ValidationException("This email address is already registered.");
 			}
 		} catch (DaoException e) {

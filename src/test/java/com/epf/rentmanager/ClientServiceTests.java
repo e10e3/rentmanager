@@ -48,7 +48,7 @@ public class ClientServiceTests {
 
 	@Test
 	public void edit_should_fail_when_dao_throws_exception() throws DaoException {
-		Client client = new Client(0, "lastName", "firstName", "email", LocalDate.now());
+		Client client = new Client(0, "lastName", "firstName", "email", LocalDate.of(2000, 1, 1));
 		doThrow(DaoException.class).when(clientDao).update(isA(Long.class), isA(Client.class));
 		assertThrows(ServiceException.class, () -> clientService.edit(0, client));
 	}
@@ -92,7 +92,7 @@ public class ClientServiceTests {
 	@Test
 	public void create_should_fail_with_existing_email() throws DaoException {
 		Client client = new Client(0, "Test", "Test", "test", LocalDate.of(2000, 1, 1));
-		when(clientDao.isEmailUsed(isA(String.class))).thenReturn(true);
+		when(clientDao.isEmailUsed(isA(String.class), isA(long.class))).thenReturn(true);
 		assertThrows(ValidationException.class, () -> clientService.create(client));
 	}
 
@@ -104,7 +104,7 @@ public class ClientServiceTests {
 	@Test
 	public void create_should_succeed_with_valid_client() throws DaoException, ServiceException, ValidationException {
 		Client client = new Client(0, "Test", "Test", "test@test.test", LocalDate.of(2000, 1, 1));
-		when(clientDao.isEmailUsed(isA(String.class))).thenReturn(false);
+		when(clientDao.isEmailUsed(isA(String.class), isA(long.class))).thenReturn(false);
 		when(clientDao.create(isA(Client.class))).thenReturn(0L);
 		assertEquals(clientService.create(client), 0L);
 	}

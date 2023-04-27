@@ -18,7 +18,7 @@ public class ClientDao {
 	private static final String FIND_CLIENT_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client WHERE id=?;";
 	private static final String FIND_CLIENTS_QUERY = "SELECT id, nom, prenom, email, naissance FROM Client;";
 	private static final String COUNT_CLIENTS_QUERY = "SELECT COUNT(id) AS count FROM Client;";
-	private static final String CHECK_IF_EMAIL_USED = "SELECT 1 FROM client WHERE email=? LIMIT 1;";
+	private static final String CHECK_IF_EMAIL_USED_IGNORED_CLIENT = "SELECT 1 FROM client WHERE email=? AND id!=? LIMIT 1;";
 
 	public long create(Client client) throws DaoException {
 		long clientId = 0;
@@ -136,13 +136,15 @@ public class ClientDao {
 		return userCount;
 	}
 
-	public boolean isEmailUsed(String emailAddress) throws DaoException {
+	public boolean isEmailUsed(String emailAddress, long ignoredClientId) throws DaoException {
 		boolean exists = false;
 		try (
 				Connection connection = ConnectionManager.getConnection();
-				PreparedStatement statement = connection.prepareStatement(CHECK_IF_EMAIL_USED)
+				PreparedStatement statement = connection.prepareStatement(
+						CHECK_IF_EMAIL_USED_IGNORED_CLIENT)
 		) {
 			statement.setString(1, emailAddress);
+			statement.setLong(2, ignoredClientId);
 			ResultSet rs = statement.executeQuery();
 
 			if (rs.next()) {
