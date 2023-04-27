@@ -88,8 +88,10 @@ public class ReservationService {
 			}
 
 			ArrayList<Reservation> sameVehicleReservations = new ArrayList<>(
-					this.findResaByVehicleId(
-							checkedReservation.rentedVehicle().identifier()));
+					this.findResaByVehicleId(checkedReservation.rentedVehicle().identifier())
+							.stream()
+							.filter(r -> (r.identifier() != checkedReservation.identifier()))
+							.toList());
 			if (sameVehicleReservations.size() == 0) {
 				return;
 			}

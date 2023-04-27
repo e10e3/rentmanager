@@ -34,13 +34,13 @@ public class ReservationServiceTests {
 	public void shouldFail_whenTwoReservationsOnSameDayForVehicle() throws DaoException {
 		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
 		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
-		Reservation existingReservation = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation existingReservation = new Reservation(1000, sampleClient, sampleVehicle,
 														  LocalDate.of(2023, 3, 10),
 														  LocalDate.of(2023, 3, 20));
-		Reservation newReservationBefore = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservationBefore = new Reservation(1001, sampleClient, sampleVehicle,
 														   LocalDate.of(2023, 3, 9),
 														   LocalDate.of(2023, 3, 12));
-		Reservation newReservationAfter = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservationAfter = new Reservation(1002, sampleClient, sampleVehicle,
 														  LocalDate.of(2023, 3, 19),
 														  LocalDate.of(2023, 3, 22));
 		when(this.reservationDao.findResaByVehicleId(isA(Long.class))).thenReturn(
@@ -56,11 +56,11 @@ public class ReservationServiceTests {
 		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
 		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
 		List<Reservation> existingReservations = List.of(
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 1),
+				new Reservation(1000, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 1),
 								LocalDate.of(2023, 3, 20)),
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 21),
+				new Reservation(1001, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 21),
 								LocalDate.of(2023, 3, 31)));
-		Reservation newReservation = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservation = new Reservation(1002, sampleClient, sampleVehicle,
 													 LocalDate.of(2023, 4, 1),
 													 LocalDate.of(2023, 4, 3));
 		when(this.reservationDao.findResaByVehicleId(isA(Long.class))).thenReturn(
@@ -74,11 +74,11 @@ public class ReservationServiceTests {
 		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
 		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
 		List<Reservation> existingReservations = List.of(
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
+				new Reservation(1000, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
 								LocalDate.of(2023, 3, 20)),
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 21),
+				new Reservation(1001, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 21),
 								LocalDate.of(2023, 4, 8)));
-		Reservation newReservation = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservation = new Reservation(1002, sampleClient, sampleVehicle,
 													 LocalDate.of(2023, 3, 6),
 													 LocalDate.of(2023, 3, 9));
 		when(this.reservationDao.findResaByVehicleId(isA(Long.class))).thenReturn(
@@ -92,11 +92,11 @@ public class ReservationServiceTests {
 		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
 		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
 		List<Reservation> existingReservations = List.of(
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
+				new Reservation(1000, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
 								LocalDate.of(2023, 3, 22)),
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 28),
+				new Reservation(1001, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 28),
 								LocalDate.of(2023, 4, 10)));
-		Reservation newReservation = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservation = new Reservation(1002, sampleClient, sampleVehicle,
 													 LocalDate.of(2023, 3, 23),
 													 LocalDate.of(2023, 3, 27));
 		when(this.reservationDao.findResaByVehicleId(isA(Long.class))).thenReturn(
@@ -109,7 +109,7 @@ public class ReservationServiceTests {
 	public void shouldFail_whenClientRentsMoreThan7Days() {
 		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
 		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
-		Reservation newReservation = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservation = new Reservation(1000, sampleClient, sampleVehicle,
 													 LocalDate.of(2023, 2, 1),
 													 LocalDate.of(2023, 2, 20));
 		assertThrows(ValidationException.class,
@@ -121,9 +121,9 @@ public class ReservationServiceTests {
 		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
 		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
 		List<Reservation> existingReservations = List.of(
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
+				new Reservation(1000, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
 								LocalDate.of(2023, 3, 12)));
-		Reservation newReservation = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservation = new Reservation(1001, sampleClient, sampleVehicle,
 													 LocalDate.of(2023, 3, 13),
 													 LocalDate.of(2023, 3, 18));
 		when(this.reservationDao.findResaByVehicleId(isA(Long.class))).thenReturn(
@@ -137,9 +137,9 @@ public class ReservationServiceTests {
 		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
 		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
 		List<Reservation> existingReservations = List.of(
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
+				new Reservation(1000, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
 								LocalDate.of(2023, 3, 12)));
-		Reservation newReservation = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservation = new Reservation(1001, sampleClient, sampleVehicle,
 													 LocalDate.of(2023, 3, 4),
 													 LocalDate.of(2023, 3, 10));
 		when(this.reservationDao.findResaByVehicleId(isA(Long.class))).thenReturn(
@@ -153,14 +153,29 @@ public class ReservationServiceTests {
 		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
 		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
 		List<Reservation> existingReservations = List.of(
-				new Reservation(0, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
+				new Reservation(1000, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
 								LocalDate.of(2023, 3, 12)));
-		Reservation newReservation = new Reservation(0, sampleClient, sampleVehicle,
+		Reservation newReservation = new Reservation(1001, sampleClient, sampleVehicle,
 													 LocalDate.of(2023, 3, 1),
 													 LocalDate.of(2023, 3, 4));
 		when(this.reservationDao.findResaByVehicleId(isA(Long.class))).thenReturn(
 				existingReservations);
 		when(this.reservationDao.create(isA(Reservation.class))).thenReturn(123L);
 		assertEquals(this.reservationService.create(newReservation), 123L);
+	}
+
+	@Test
+	public void shouldSucceed_whenEditingExistingReservationWithoutChanges() throws DaoException, ValidationException, ServiceException {
+		Client sampleClient = new Client(0, "Test", "test", "test@test.test", LocalDate.now());
+		Vehicle sampleVehicle = new Vehicle(0L, "Test", "test", (short) 2);
+		List<Reservation> existingReservations = List.of(
+				new Reservation(1000, sampleClient, sampleVehicle, LocalDate.of(2023, 3, 10),
+								LocalDate.of(2023, 3, 12)));
+		Reservation editedReservation = new Reservation(1000, sampleClient, sampleVehicle,
+														LocalDate.of(2023, 3, 10),
+														LocalDate.of(2023, 3, 12));
+		when(this.reservationDao.findResaByVehicleId(isA(Long.class))).thenReturn(
+				existingReservations);
+		this.reservationService.edit(existingReservations.get(0).identifier(), editedReservation);
 	}
 }
