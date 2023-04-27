@@ -31,6 +31,12 @@
                                     <b>Voiture·s</b> <a class="pull-right">${rentedVehicles.size()}</a>
                                 </li>
                             </ul>
+                            <a class="btn btn-success" href="${pageContext.request.contextPath}/users/edit?id=${client.identifier()}">
+                                <i class="fa fa-edit"></i> Modifier
+                            </a>
+                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/users/delete?id=${client.identifier()}">
+                                <i class="fa fa-trash"></i> Supprimer
+                            </a>
                         </div>
                         <!-- /.box-body -->
                     </div>

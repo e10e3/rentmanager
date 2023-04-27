@@ -30,6 +30,12 @@
                                     <b>Conducteur·s</b> <a class="pull-right">${renterClients.size()}</a>
                                 </li>
                             </ul>
+                            <a class="btn btn-success" href="${pageContext.request.contextPath}/cars/edit?id=${vehicle.identifier()}">
+                                <i class="fa fa-edit"></i> Modifier
+                            </a>
+                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/cars/delete?id=${vehicle.identifier()}">
+                                <i class="fa fa-trash"></i> Supprimer
+                            </a>
                         </div>
                         <!-- /.box-body -->
                     </div>
