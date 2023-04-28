@@ -5,6 +5,9 @@ Rent Manager
 A study program to explore making web applications using Java by creating a rental-tracking
 software for a mock rental agency.
 
+.. image:: rentmanager.png
+	:align: center
+
 Use
 ====
 
@@ -45,5 +48,11 @@ This project was build using Java 17.
 License
 ========
 
+This project is licenced under the Mozilla Public Licence 2.0.
+
 Acknowledgements
 ================
+
+This project was part of a scholar assignment. The initial codebase (commits
+ff425669bfb596f419192d1d7b695165ab42d512 and
+e7c5bd9db99c7cc051c916ae8cc86580cd9f602f) is not mine.
