@@ -45,6 +45,16 @@ This project was build using Java 17.
 - `JUnit <https://junit.org/junit4/>`_
 - `Mockito <https://site.mockito.org/>`_
 
+Potential improvements
+=========================
+
+Some changes could be made to make the project even better, but are not
+necessary for its working. Some of them are:
+
+- use optional objects for methods that could return nothing, like ``findById()``,
+- add more links to navigate between pages in the web UI, allowing to view the booked vehicle from a reservation,
+- simplify the reservation validation in order to not use an intermediary class.
+
 License
 ========
 
