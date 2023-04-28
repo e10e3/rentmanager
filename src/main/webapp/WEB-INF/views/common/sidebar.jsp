@@ -18,7 +18,7 @@
             </li>
             <li>
                 <a href="${pageContext.request.contextPath}/rents">
-                    <i class="fa fa-pencil"></i> <span>Reservations</span>
+                    <i class="fa fa-pencil"></i> <span>Réservations</span>
                 </a>
             </li>
         </ul>
