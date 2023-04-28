@@ -43,19 +43,19 @@
 									<!-- vous devez passer par les méthodes getParameter de l'objet request, est spécifiant la valeur -->
 									<!-- de l'attribut "name" de l'input -->
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" required id="manufacturer" name="manufacturer" placeholder="Marque" value="${vehicle.constructor()}">
+                                        <input type="text" class="form-control" required id="manufacturer" name="manufacturer" placeholder="Marque" pattern=".*\S+.*" title="Entrer un nom de marque" value="${vehicle.constructor()}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="modele" class="col-sm-2 control-label">Modèle</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" required id="modele" name="modele" placeholder="Modèle" value="${vehicle.model()}">
+                                        <input type="text" class="form-control" required id="modele" name="modele" placeholder="Modèle" pattern=".*\S+.*" title="Entrer un modèle" value="${vehicle.model()}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="seats" class="col-sm-2 control-label">Nombre de places</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" required id="seats" name="seats" placeholder="Nombre de places" value="${vehicle.seatCount()}">
+                                        <input type="number" class="form-control" required id="seats" name="seats" placeholder="Nombre de places" min="2" max="9" value="${vehicle.seatCount()}">
                                     </div>
                                 </div>
                             </div>

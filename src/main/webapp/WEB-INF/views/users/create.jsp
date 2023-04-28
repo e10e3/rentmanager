@@ -1,7 +1,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <%@include file="/WEB-INF/views/common/head.jsp"%>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -36,13 +36,13 @@
                                 <div class="form-group">
                                     <label for="last_name" class="col-sm-2 control-label">Nom</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" required id="last_name" name="last_name" placeholder="Nom" value="${client.lastName()}">
+                                        <input type="text" class="form-control" required id="last_name" name="last_name" placeholder="Nom" minlength="3" pattern=".*\S{3,}.*" title="Entrer un nom d'au moins trois caractères" value="${client.lastName()}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="first_name" class="col-sm-2 control-label">Prénom</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" required id="first_name" name="first_name" placeholder="Prénom" value="${client.firstName()}">
+                                        <input type="text" class="form-control" required id="first_name" name="first_name" placeholder="Prénom" minlength="3" pattern=".*\S{3,}.*"  title="Entrer un prénom d'au moins trois caractères" value="${client.firstName()}">
                                     </div>
                                 </div>
                                 <div class="form-group">
