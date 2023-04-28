@@ -40,7 +40,7 @@ public class VehicleEditServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request,
-						  HttpServletResponse response) throws IOException {
+						  HttpServletResponse response) throws IOException, ServletException {
 		int vehicleId = Integer.parseInt(request.getParameter("id"));
 		request.setCharacterEncoding("UTF-8");
 
@@ -52,8 +52,12 @@ public class VehicleEditServlet extends HttpServlet {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (ValidationException e) {
-			// TODO Display a message
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
+			request.setAttribute("vehicle", vehicle);
+			this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/views/vehicles/edit.jsp")
+					.forward(request, response);
+			return;
 		}
 		response.sendRedirect("/rentmanager/cars");
 	}

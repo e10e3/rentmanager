@@ -83,7 +83,7 @@ customer.
 deleted as well.
 - [X] A vehicle must have a manufacturer, a model, and a seat count between 2 
 and 9.
-- [ ] Add a validation error message in the web interface.
+- [X] Add a validation error message in the web interface.
 
 Style
 ------

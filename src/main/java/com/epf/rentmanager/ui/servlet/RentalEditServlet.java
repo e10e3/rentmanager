@@ -49,12 +49,13 @@ public class RentalEditServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request,
-						  HttpServletResponse response) throws IOException {
+						  HttpServletResponse response) throws IOException, ServletException {
 		long rentalId = Long.parseLong(request.getParameter("id"));
 		request.setCharacterEncoding("UTF-8");
 
+		Reservation reservation = null;
 		try {
-			Reservation reservation = new Reservation(rentalId, clientService.findById(
+			reservation = new Reservation(rentalId, clientService.findById(
 					Integer.parseInt(request.getParameter("client"))), vehicleService.findById(
 					Integer.parseInt(request.getParameter("car"))), LocalDate.parse(
 					request.getParameter("begin")), LocalDate.parse(request.getParameter("end")));
@@ -62,8 +63,18 @@ public class RentalEditServlet extends HttpServlet {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (ValidationException e) {
-			// TODO Display a message
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
+			request.setAttribute("rental", reservation);
+			try {
+				request.setAttribute("clients", this.clientService.findAll());
+				request.setAttribute("vehicles", this.vehicleService.findAll());
+			} catch (ServiceException ex) {
+				e.printStackTrace();
+			}
+			this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/views/rents/create.jsp")
+					.forward(request, response);
+			return;
 		}
 		response.sendRedirect("/rentmanager/rents");
 	}

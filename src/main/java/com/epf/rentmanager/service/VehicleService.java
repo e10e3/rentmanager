@@ -41,10 +41,10 @@ public class VehicleService {
 			throw new ValidationException("The vehicle to check cannot be null");
 		}
 		if (vehicle.constructor().isBlank()) {
-			throw new ValidationException("Constructor must be set.");
+			throw new ValidationException("The vehicle's constructor must not be empty.");
 		}
 		if (vehicle.model().isBlank()) {
-			throw new ValidationException("Model must be set.");
+			throw new ValidationException("The vehicle's model must not be empty.");
 		}
 		if (vehicle.seatCount() < 2 || vehicle.seatCount() > 9) {
 			throw new ValidationException("Number of seats must be at least 2 and at most 9.");

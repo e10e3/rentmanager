@@ -41,7 +41,7 @@ public class UserEditServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request,
-						  HttpServletResponse response) throws IOException {
+						  HttpServletResponse response) throws IOException, ServletException {
 		int clientId = Integer.parseInt(request.getParameter("id"));
 		request.setCharacterEncoding("UTF-8");
 
@@ -54,8 +54,12 @@ public class UserEditServlet extends HttpServlet {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (ValidationException e) {
-			// TODO Display a message
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
+			request.setAttribute("client", client);
+			this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/views/users/edit.jsp")
+					.forward(request, response);
+			return;
 		}
 		response.sendRedirect("/rentmanager/users");
 	}

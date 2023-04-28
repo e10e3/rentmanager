@@ -78,15 +78,18 @@ public class ReservationService {
 		if (checkedReservation == null) {
 			throw new ValidationException("Reservation cannot be null");
 		}
-		try {
-			/* Low-hanging fruits */
-			if (ChronoUnit.DAYS.between(checkedReservation.startDate(),
-										checkedReservation.endDate()) > MAX_DAYS_CLIENT_RENTAL) {
-				throw new ValidationException(
-						"A client cannot rent a vehicle for more than " + MAX_DAYS_CLIENT_RENTAL +
-						" days.");
-			}
 
+		/* Low-hanging fruits */
+		if (checkedReservation.startDate().isAfter(checkedReservation.endDate())) {
+			throw new ValidationException("End must be after start.");
+		}
+		if (ChronoUnit.DAYS.between(checkedReservation.startDate(), checkedReservation.endDate()) >
+			MAX_DAYS_CLIENT_RENTAL) {
+			throw new ValidationException(
+					"A client cannot rent a vehicle for more than " + MAX_DAYS_CLIENT_RENTAL +
+					" days.");
+		}
+		try {
 			ArrayList<Reservation> sameVehicleReservations = new ArrayList<>(
 					this.findResaByVehicleId(checkedReservation.rentedVehicle().identifier())
 							.stream()
@@ -101,13 +104,13 @@ public class ReservationService {
 					.filter(r -> r.startDate().compareTo(checkedReservation.startDate()) < 1)
 					.anyMatch(r -> r.endDate().compareTo(checkedReservation.startDate()) > -1)) {
 				throw new ValidationException(
-						"This reservation overlaps with an existing reservation.");
+						"This reservation overlaps with an existing reservation for this vehicle.");
 			}
 			if (sameVehicleReservations.stream()
 					.filter(r -> r.startDate().compareTo(checkedReservation.endDate()) < 1)
 					.anyMatch(r -> r.endDate().compareTo(checkedReservation.endDate()) > -1)) {
 				throw new ValidationException(
-						"This reservation overlaps with an existing reservation.");
+						"This reservation overlaps with an existing reservation for this vehicle.");
 			}
 
 			/* ---------------------- */

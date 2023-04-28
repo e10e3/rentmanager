@@ -25,6 +25,11 @@
                 <div class="col-md-12">
                     <!-- Horizontal Form -->
                     <div class="box">
+                        <c:if test="${errorMessage != null}">
+                        <div class="alert alert-error m-1">
+                            <p>${errorMessage}</p>
+                        </div>
+                        </c:if>
                         <!-- form start -->
                         <!-- Le  type de methode http qui sera appel� lors de action submit du formulaire -->
                         <!-- est décrit an l'attribut "method" de la balise forme -->
@@ -34,26 +39,23 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="manufacturer" class="col-sm-2 control-label">Marque</label>
-
 									<!-- Pour récupérer la valeur rentrée dans un champ input de cette jsp au niveau de votre servlet -->
-									<!-- vous devez passer par les méthodes getParameter de l'objet request, est sp�cifiant la valeur -->
+									<!-- vous devez passer par les méthodes getParameter de l'objet request, est spécifiant la valeur -->
 									<!-- de l'attribut "name" de l'input -->
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" required id="manufacturer" name="manufacturer" placeholder="Marque" required>
+                                        <input type="text" class="form-control" required id="manufacturer" name="manufacturer" placeholder="Marque" value="${vehicle.constructor()}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="modele" class="col-sm-2 control-label">Modèle</label>
-
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" required id="modele" name="modele" placeholder="Modele" required>
+                                        <input type="text" class="form-control" required id="modele" name="modele" placeholder="Modèle" value="${vehicle.model()}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="seats" class="col-sm-2 control-label">Nombre de places</label>
-
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" required id="seats" name="seats" placeholder="Nombre de places" required>
+                                        <input type="text" class="form-control" required id="seats" name="seats" placeholder="Nombre de places" value="${vehicle.seatCount()}">
                                     </div>
                                 </div>
                             </div>

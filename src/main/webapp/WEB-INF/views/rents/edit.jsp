@@ -24,6 +24,11 @@
                 <div class="col-md-12">
                     <!-- Horizontal Form -->
                     <div class="box">
+                        <c:if test="${errorMessage != null}">
+                        <div class="alert alert-error m-1">
+                            <p>${errorMessage}</p>
+                        </div>
+                        </c:if>
                         <!-- form start -->
                         <form class="form-horizontal" method="post">
                             <div class="box-body">

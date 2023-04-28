@@ -32,30 +32,46 @@ public class RentalCreateServlet extends HttpServlet {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+						 HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setAttribute("clients", this.clientService.findAll());
 			request.setAttribute("vehicles", this.vehicleService.findAll());
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
+		this.getServletContext()
+				.getRequestDispatcher("/WEB-INF/views/rents/create.jsp")
+				.forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void doPost(HttpServletRequest request,
+						  HttpServletResponse response) throws IOException, ServletException {
 		request.setCharacterEncoding("UTF-8");
 
+		Reservation reservation = null;
 		try {
-			Reservation reservation = new Reservation(0, clientService.findById(
+			reservation = new Reservation(0, clientService.findById(
 					Integer.parseInt(request.getParameter("client"))), vehicleService.findById(
-					Integer.parseInt(request.getParameter("car"))), LocalDate.parse(
-					request.getParameter("begin")), LocalDate.parse(request.getParameter("end")));
+					Integer.parseInt(request.getParameter("car"))),
+										  LocalDate.parse(request.getParameter("begin")),
+										  LocalDate.parse(request.getParameter("end")));
 			reservationService.create(reservation);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (ValidationException e) {
-			// TODO Display a message
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
+			try {
+				request.setAttribute("clients", this.clientService.findAll());
+				request.setAttribute("vehicles", this.vehicleService.findAll());
+			} catch (ServiceException ex) {
+				e.printStackTrace();
+			}
+			request.setAttribute("rental", reservation);
+			this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/views/rents/create.jsp")
+					.forward(request, response);
+			return;
 		}
 		response.sendRedirect("/rentmanager/rents");
 	}

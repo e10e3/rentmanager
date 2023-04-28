@@ -29,7 +29,8 @@ public class VehicleCreateServlet extends HttpServlet {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void doPost(HttpServletRequest request,
+						  HttpServletResponse response) throws IOException, ServletException {
 		request.setCharacterEncoding("UTF-8");
 
 		Vehicle vehicle = new Vehicle(0, request.getParameter("manufacturer"),
@@ -40,8 +41,12 @@ public class VehicleCreateServlet extends HttpServlet {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (ValidationException e) {
-			// TODO Display a message
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
+			request.setAttribute("vehicle", vehicle);
+			this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp")
+					.forward(request, response);
+			return;
 		}
 		response.sendRedirect("/rentmanager/cars");
 	}

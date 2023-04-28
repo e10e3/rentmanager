@@ -25,6 +25,11 @@
                 <div class="col-md-12">
                     <!-- Horizontal Form -->
                     <div class="box">
+                        <c:if test="${errorMessage != null}">
+                        <div class="alert alert-error m-1">
+                            <p>${errorMessage}</p>
+                        </div>
+                        </c:if>
                         <!-- form start -->
                         <!-- Le  type de methode http qui sera appel� lors de action submit du formulaire -->
                         <!-- est décrit an l'attribut "method" de la balise forme -->

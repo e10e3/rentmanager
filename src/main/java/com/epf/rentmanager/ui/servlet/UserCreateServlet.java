@@ -30,7 +30,8 @@ public class UserCreateServlet extends HttpServlet {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void doPost(HttpServletRequest request,
+						  HttpServletResponse response) throws IOException, ServletException {
 		request.setCharacterEncoding("UTF-8");
 
 		Client client = new Client(0, request.getParameter("last_name"),
@@ -42,8 +43,12 @@ public class UserCreateServlet extends HttpServlet {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		} catch (ValidationException e) {
-			// TODO Display a message
-			e.printStackTrace();
+			request.setAttribute("errorMessage", e.getMessage());
+			request.setAttribute("client", client);
+			this.getServletContext()
+					.getRequestDispatcher("/WEB-INF/views/users/create.jsp")
+					.forward(request, response);
+			return;
 		}
 		response.sendRedirect("/rentmanager/users");
 	}
